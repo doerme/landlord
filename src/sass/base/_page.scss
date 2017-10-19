@@ -26,35 +26,44 @@
         width: rem(164);
         height: rem(82);
     }
-    .bt-buchu{
+    .mid-ctrl-line{
         position: absolute;
+        width: 100%;
+        left: 0;
+        top: rem(565);
+        height: rem(100);
+        line-height: rem(100);
+        text-align: center;
+    }
+    .bt-buchu{
+        display: inline-block;
         width: rem(181);
         height: rem(90);
-        top: rem(575);
-        left: rem(30);
+        vertical-align: middle;
     }
     .bt-tips{
-        position: absolute;
+        display: inline-block;
         width: rem(181);
         height: rem(90);
-        top: rem(575);
-        left: rem(350);
+        vertical-align: middle;
     }
     .bt-chupai{
-        position: absolute;
+        display: inline-block;
         width: rem(181);
         height: rem(90);
-        top: rem(575);
-        left: rem(550);
+        vertical-align: middle;
     }
     .timeout-clock{
-        position: absolute;
+        display: inline-block;
         width: rem(97);
         height: rem(98);
-        top: rem(575);
-        left: rem(230);
-        background: url('../img/page/timeout-clock.png') no-repeat center top;
+        vertical-align: middle;
+        background: url('../img/page/timeout-clock.png') no-repeat rem(-4) top;
         background-size: 100% auto;
+        font-size: rem(37);
+        text-align: center;
+        line-height: rem(98);
+        color: #FFF;
     }
     &-foot{
         position: absolute;

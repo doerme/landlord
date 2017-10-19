@@ -7,8 +7,39 @@ $font_size : 75;
 }
 
 @import "base/base";
+@import "base/page";
 @import "img";
-@import "base/page"
+
+.game-wrap{
+    .font-difen{
+        position: absolute;
+        width: rem(135);
+        height: rem(70);
+        text-align: center;
+        background: url('../img/page/font-difen.png') no-repeat center top;
+        background-size: rem(63) rem(34);
+        top: rem(25);
+        left: rem(160);
+        line-height: rem(115);
+        color: #FFF;
+        font-size: rem(30);
+        text-shadow: 0 rem(2) #7a5f2f, rem(2) 0 #7a5f2f, rem(-2) 0 #7a5f2f, 0 rem(-2) #7a5f2f;
+    }
+    .font-beishu{
+        position: absolute;
+        width: rem(135);
+        height: rem(70);
+        text-align: center;
+        background: url('../img/page/font-beishu.png') no-repeat center top;
+        background-size: rem(63) rem(34);
+        top: rem(25);
+        right: rem(160);
+        line-height: rem(115);
+        color: #FFF;
+        font-size: rem(30);
+        text-shadow: 0 rem(2) #7a5f2f, rem(2) 0 #7a5f2f, rem(-2) 0 #7a5f2f, 0 rem(-2) #7a5f2f;
+    }
+}
 
 
 // Coding...
