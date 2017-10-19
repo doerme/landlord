@@ -1,0 +1,73 @@
+.hide{
+    display: none !important;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.game-wrap{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #ba7b1c url('../img/page/game-main-table.jpg') no-repeat center rem(-130);
+    background-size: 100% auto;
+}
+
+.loading-wrap{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #ba7b1c url('../img/page/loading-bg.jpg') no-repeat;
+    background-size: 100% auto;
+    &-logo{
+        position: absolute;
+        width: rem(499);
+        height: rem(304);
+        left: 50%;
+        top: rem(290);
+        margin-left: rem(-499/2);
+    }
+    &-font{
+        position: absolute;
+        width: 100%;
+        top: rem(650);
+        font-size: rem(28);
+        text-align: center;
+        color: #FFF;
+        // -webkit-text-stroke: rem(3) #7a5f2f;
+        text-shadow: 0 rem(2) #7a5f2f, rem(2) 0 #7a5f2f, rem(-2) 0 #7a5f2f, 0 rem(-2) #7a5f2f;
+    }
+    &-main{
+        position: absolute;
+        left: 0px;
+        top: 20%;
+        width: 100%;
+    }
+    &-main-wrap{
+        position: absolute;
+        width: rem(510);
+        height: rem(35);
+        top: rem(700);
+        left: 50%;
+        margin-left: rem(-510/2);
+        background: #7a5f2f;
+        border-radius: rem(28);
+        .loading-line{
+            position: absolute;
+            left: 0;
+            top:0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #1462ff, #36b5ff);
+            -webkit-transition: width 2s; /* Safari */
+            transition: width 2s;
+            border-radius: rem(28);
+            &.full{
+                width: 95%;
+            }
+        }
+    }
+}

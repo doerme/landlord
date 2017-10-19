@@ -1,19 +1,14 @@
 @charset "UTF-8";
 
+$font_size : 75;
+
+@function rem($pixels){
+    @return $pixels / $font_size + rem;
+}
+
 @import "base/base";
 @import "img";
+@import "base/page"
 
-body {
-    font: $b-font-weight #{$b-font-size}/#{$b-line-height} $b-font-family;
-    color: $c-text;
-    a {
-        text-decoration: none;
-        color: nth($c-link, 1);
-        &:hover {
-            text-decoration: underline;
-            color: nth($c-link, 2);
-        }
-    }
-}
 
 // Coding...
