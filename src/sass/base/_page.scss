@@ -3,6 +3,103 @@
     pointer-events: none;
     opacity: 0;
 }
+.ctrlright-view{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: rem(370);
+    height: 100%;
+    background: #282522;
+    .right-invite-bt{
+        display: block;
+        width: rem(321);
+        height: rem(86);
+        margin: rem(20) auto rem(20); 
+    }
+    &-top{
+        position: relative;
+        width: 100%;
+        height: rem(265);
+        .remind{
+            text-align: center;
+            p{
+                font-size: rem(28);
+                color: #70655a;
+                line-height: rem(40);
+            }
+        }
+    }
+    &-title{
+        position: relative;
+        text-align: center;
+        width: 100%;
+        height: rem(80);
+        background: #3f3a35;
+        color: #ada297;
+        font-size: rem(32);
+        line-height: rem(80);
+        span{
+            display: inline-block;
+            text-align: center;
+            width: 48%;
+        }
+    }
+    &-table{
+        table{
+            width: 80%;
+            margin-left: 10%;
+            margin-top: rem(20);
+            margin-bottom: rem(20);
+        }
+        td{
+            font-size: rem(28);
+            text-align: left;
+            height: rem(58);
+            line-height: rem(58);
+            &:nth-child(1){
+                color: #e49c10;
+            }
+            &:nth-child(2){
+                color: #FFF;
+            }
+        }
+    }
+    .game-state{
+        margin-top: rem(20);
+        text-indent: rem(20);
+        display: block;
+        font-size: rem(28);
+        color: #e49c10;
+    }
+    &-list{
+        li{
+            position: relative;
+            width: 100%;
+            height: rem(80);
+            line-height: rem(80);
+        }
+        .gul-avatar{
+            display: inline-block;
+            width: rem(70);
+            height: rem(70);
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-left: rem(20);
+            margin-right: rem(20);
+        }
+        .gul-name{
+            display: inline-block;
+            width: rem(145);
+            font-size: rem(32);
+            color: #ada297;
+        }
+        .gul-score{
+            display: inline-block;
+            font-size: rem(32);
+            color: #ada297;
+        }
+    }
+}
 
 .game-wrap{
     position: absolute;
