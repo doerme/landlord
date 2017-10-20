@@ -9,8 +9,120 @@ $font_size : 75;
 @import "base/base";
 @import "base/page";
 @import "img";
+.top-pocket-wrap{
+    position: absolute;
+    width: rem(159);
+    height: rem(102);
+    background: url('../img/page/top-pocket-wrap.png') no-repeat;
+    background-size: 100% 100%;
+    top: rem(10);
+    left: 50%;
+    margin-left: rem(-159/2);
+    .pok{
+        position: absolute;
+        width: rem(60);
+        height: rem(80);
+        top: rem(10);
+        &:nth-child(1){
+            left: rem(16);
+        }
+        &:nth-child(2){
+            left: rem(48);
+        }
+        &:nth-child(3){
+            left: rem(80);
+        }
+    }
+}
 
 .game-wrap{
+    .main-pocket-wrap{
+        position: absolute;
+        top: rem(690);
+        left: 0;
+        width: 100%;
+        height: rem(414);
+        &-top{
+            position: relative;
+            height: rem(205);
+        }
+        &-bottom{
+            position: relative;
+            height: rem(205);
+        }
+        .pok{
+            position: absolute;
+            width: rem(130);
+            height: rem(190);
+            @for $i from 1 through 18 {
+                &:nth-child(#{$i}){
+                    left: #{$i*60/75}rem;
+                }
+            }
+        }
+    }
+    .user-pocket-wrap{
+        position: absolute;
+        top: rem(360);
+        height: rem(115);
+        width: 50%;
+        .pok{
+            position: absolute;
+            width: rem(85);
+            height: rem(115);
+            @for $i from 1 through 18 {
+                &:nth-child(#{$i}){
+                    left: #{$i*40/75}rem;
+                }
+            }
+        }
+        &.left{
+            left: rem(-30);
+        }
+        &.right{
+            right: rem(-30);
+        }
+    }
+    .user-info-wrap{
+        position: absolute;
+        top: rem(290);
+        width: rem(198);
+        height: rem(60);
+        border-radius: rem(30);
+        &::before{
+            content: '';
+            position: absolute;
+            background: rgba(0, 0, 0, 0.6);
+            width: 100%;
+            height: 100%;
+            border-radius: rem(30);
+        }
+        &.left{
+            left: 0;
+        }
+        &.right{
+            right: 0;
+        }
+        .name{
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            text-align: center;
+            font-size: rem(24);
+            color: #FFF;
+            line-height: rem(30);
+        }
+        .score{
+            position: absolute;
+            top: rem(30);
+            width: 100%;
+            height: 50%;
+            text-align: center;
+            font-size: rem(24);
+            color: #ffb335;
+            line-height: rem(30);
+        }
+    }
     .font-difen{
         position: absolute;
         width: rem(135);
@@ -38,6 +150,32 @@ $font_size : 75;
         color: #FFF;
         font-size: rem(30);
         text-shadow: 0 rem(2) #7a5f2f, rem(2) 0 #7a5f2f, rem(-2) 0 #7a5f2f, 0 rem(-2) #7a5f2f;
+    }
+    .sit-down-bt{
+        position: absolute;
+        width: rem(131);
+        height: rem(131);
+        &.one{
+            top: rem(145);
+            left: rem(30);
+        }
+        &.two{
+            top: rem(145);
+            right: rem(30);
+        }
+        &.three{
+            bottom: rem(130);
+            left: 50%;
+            margin-left: rem(-131/2);
+        }
+    }
+    .ctrl-voice-mark{
+        position: absolute;
+        width: rem(280);
+        height: rem(340);
+        top: 30%;
+        left: 50%;
+        margin-left: rem(-280/2);
     }
 }
 

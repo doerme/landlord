@@ -28,12 +28,13 @@
         <div class="font-beishu">3</div>
         <img class="bt-more js-bt-more" src="./img/page/bt-more.png" />
         <img class="bt-detail js-bt-detail" src="./img/page/bt-detail.png" />
-        <!-- 更多菜单 -->
-        <div class="more-menu js-more-menu hide">
-            <div class="more-menu-mask"></div>
-            <div class="more-menu-main"></div>
+        <!-- 头部牌容器 -->
+        <div class="top-pocket-wrap">
+            <img class="pok" src="./img/page/poker/f2.png" />
+            <img class="pok" src="./img/page/poker/f3.png" />
+            <img class="pok" src="./img/page/poker/f4.png" />
         </div>
-        <!-- 更多菜单end -->
+        <!-- 头部牌容器end -->
         <!-- 中部按钮条 -->
         <div class="mid-ctrl-line">
             <img class="bt-buchu" src="./img/page/bt-buchu.png" />
@@ -42,6 +43,66 @@
             <img class="bt-chupai" src="./img/page/bt-chupai.png" />
         </div>
         <!-- 中部按钮条end -->
+        <!-- 坐下按钮 -->
+        <img class="sit-down-bt one" src="./img/page/bt-sitdown.png" />
+        <img class="sit-down-bt two" src="./img/page/bt-sitdown.png" />
+        <img class="sit-down-bt three" src="./img/page/bt-sitdown.png" />
+        <!-- 坐下按钮end -->
+
+        <!-- 用户信息 -->
+        <div class="user-info-wrap left">
+            <div class="name">Jeremy</div>
+            <div class="score">3560</div>
+        </div>
+        <div class="user-info-wrap right">
+            <div class="name">Jeremy</div>
+            <div class="score">3560</div>
+        </div>
+        <!-- 用户信息end -->
+
+        <!-- 左牌区 -->
+        <div class="user-pocket-wrap left">
+            <img class="pok" src="./img/page/poker/f2.png" />
+            <img class="pok" src="./img/page/poker/f3.png" />
+            <img class="pok" src="./img/page/poker/f4.png" />
+            <img class="pok" src="./img/page/poker/f2.png" />
+            <img class="pok" src="./img/page/poker/f3.png" />
+            <img class="pok" src="./img/page/poker/f4.png" />
+        </div>
+        <!-- 左牌区end -->
+
+        <!-- 右牌区 -->
+        <div class="user-pocket-wrap right">
+            <img class="pok" src="./img/page/poker/f2.png" />
+            <img class="pok" src="./img/page/poker/f3.png" />
+            <img class="pok" src="./img/page/poker/f4.png" />
+            <img class="pok" src="./img/page/poker/f2.png" />
+            <img class="pok" src="./img/page/poker/f3.png" />
+            <img class="pok" src="./img/page/poker/f4.png" />
+        </div>
+        <!-- 右牌区end -->
+
+        <!-- 主牌区 -->
+        <div class="main-pocket-wrap">
+            <div class="main-pocket-wrap-top">
+                <img class="pok" src="./img/page/poker/f2.png" />
+                <img class="pok" src="./img/page/poker/f3.png" />
+                <img class="pok" src="./img/page/poker/f4.png" />
+                <img class="pok" src="./img/page/poker/f2.png" />
+                <img class="pok" src="./img/page/poker/f3.png" />
+                <img class="pok" src="./img/page/poker/f4.png" />
+            </div>
+            <div class="main-pocket-wrap-bottom">
+                <img class="pok" src="./img/page/poker/f2.png" />
+                <img class="pok" src="./img/page/poker/f3.png" />
+                <img class="pok" src="./img/page/poker/f4.png" />
+                <img class="pok" src="./img/page/poker/f2.png" />
+                <img class="pok" src="./img/page/poker/f3.png" />
+                <img class="pok" src="./img/page/poker/f4.png" />
+            </div>
+        </div>
+        <!-- 主牌区 end -->
+
         <!-- 底栏 -->
         <div class="game-wrap-foot">
             <div class="game-wrap-foot-gold"></div>
@@ -50,44 +111,109 @@
             <img class="game-wrap-foot-im1" src="./img/page/bt-im1.png" />
         </div>
         <!-- 底栏 end -->
+
+        <!-- 录音标识 -->
+        <img class="ctrl-voice-mark hide" src="./img/page/voice_tips.png" />
+        <!-- 录音标识end -->
+
+        <!-- 更多菜单 -->
+        <div class="more-menu js-more-menu hide">
+            <div class="more-menu-mask"></div>
+            <div class="more-menu-main">
+                <div class="js-quit-desk"></div>
+                <div class="js-switch-desk"></div>
+                <div class="js-stand-desk"></div>
+                <div class="js-setting"></div>
+            </div>
+        </div>
+        <!-- 更多菜单end -->
     </div>
 
-    <div class="ctrlright-view">
-        <div class="ctrlright-view-top">
-            <div class="remind">
-                <p>组建自己的牌局</p>
-                <p>就能邀请朋友来玩</p>
+    <!-- 右侧栏 -->
+    <div class="ctrlright-view-wrap js-ctrlright-view-wrap hide">
+        <div class="ctrlright-view-mask"></div>
+        <div class="ctrlright-view">
+            <div class="ctrlright-view-top">
+                <div class="remind">
+                    <p>组建自己的牌局</p>
+                    <p>就能邀请朋友来玩</p>
+                </div>
+                <img class="right-invite-bt" src="./img/page/invite-bt.png" />
             </div>
-            <img class="right-invite-bt" src="./img/page/invite-bt.png" />
+            <div class="ctrlright-view-title">路人拼桌</div>
+            <div class="ctrlright-view-table">
+                <table>
+                    <tr>
+                        <td>游戏模式：</td>
+                        <td>普通斗地主</td>
+                    </tr>
+                    <tr>
+                        <td>游戏底分：</td>
+                        <td>10金币</td>
+                    </tr>
+                    <tr>
+                        <td>入座要求：</td>
+                        <td>500金币</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="ctrlright-view-title"><span>玩家</span> <span>盈亏</span></div>
+            <div class="game-state">游戏中</div>
+            <ul class="ctrlright-view-list">
+                <li>
+                    <img class="gul-avatar" src="./img/page/head_eg.png" />
+                    <span class="gul-name">大声道</span>
+                    <span class="gul-score">0</span>
+                </li>
+                <li>
+                    <img class="gul-avatar" src="./img/page/head_eg.png" />
+                    <span class="gul-name">大声道</span>
+                    <span class="gul-score">0</span>
+                </li>
+                <li>
+                    <img class="gul-avatar" src="./img/page/head_eg.png" />
+                    <span class="gul-name">大声道</span>
+                    <span class="gul-score">0</span>
+                </li>
+                <li>
+                    <img class="gul-avatar" src="./img/page/head_eg.png" />
+                    <span class="gul-name">大声道</span>
+                    <span class="gul-score">0</span>
+                </li>
+                <li>
+                    <img class="gul-avatar" src="./img/page/head_eg.png" />
+                    <span class="gul-name">大声道</span>
+                    <span class="gul-score">0</span>
+                </li>
+                <li>
+                    <img class="gul-avatar" src="./img/page/head_eg.png" />
+                    <span class="gul-name">大声道</span>
+                    <span class="gul-score">0</span>
+                </li>
+                <li>
+                    <img class="gul-avatar" src="./img/page/head_eg.png" />
+                    <span class="gul-name">大声道</span>
+                    <span class="gul-score">0</span>
+                </li>
+                <li>
+                    <img class="gul-avatar" src="./img/page/head_eg.png" />
+                    <span class="gul-name">大声道</span>
+                    <span class="gul-score">0</span>
+                </li>
+                <li>
+                    <img class="gul-avatar" src="./img/page/head_eg.png" />
+                    <span class="gul-name">大声道</span>
+                    <span class="gul-score">0</span>
+                </li>
+                <li>
+                    <img class="gul-avatar" src="./img/page/head_eg.png" />
+                    <span class="gul-name">大声道</span>
+                    <span class="gul-score">0</span>
+                </li>
+            </ul>
         </div>
-        <div class="ctrlright-view-title">路人拼桌</div>
-        <div class="ctrlright-view-table">
-            <table>
-                <tr>
-                    <td>游戏模式：</td>
-                    <td>普通斗地主</td>
-                </tr>
-                <tr>
-                    <td>游戏底分：</td>
-                    <td>10金币</td>
-                </tr>
-                <tr>
-                    <td>入座要求：</td>
-                    <td>500金币</td>
-                </tr>
-            </table>
-        </div>
-        <div class="ctrlright-view-title"><span>玩家</span> <span>盈亏</span></div>
-        <div class="game-state">游戏中</div>
-        <ul class="ctrlright-view-list">
-            <li>
-                <img class="gul-avatar" src="./img/page/head_eg.png" />
-                <span class="gul-name">大声道</span>
-                <span class="gul-score">0</span>
-            </li>
-        </ul>
     </div>
-    <!-- ctrlright-view end -->
+    <!-- ctrlright-view 右侧栏 end -->
 
     <script src="./js/main.js"></script>
     

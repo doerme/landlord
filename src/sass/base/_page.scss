@@ -3,6 +3,21 @@
     pointer-events: none;
     opacity: 0;
 }
+.ctrlright-view-wrap{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    .ctrlright-view-mask{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.1);
+    }
+}
 .ctrlright-view{
     position: absolute;
     top: 0;
@@ -22,6 +37,7 @@
         height: rem(265);
         .remind{
             text-align: center;
+            margin-top: rem(20);
             p{
                 font-size: rem(28);
                 color: #70655a;
@@ -72,6 +88,12 @@
         color: #e49c10;
     }
     &-list{
+        position: relative;
+        width: 100%;
+        height: rem(418);
+        overflow-y: auto;
+        -webkit-overflow-scrolling : touch;
+        margin-top: rem(20);
         li{
             position: relative;
             width: 100%;
@@ -131,6 +153,10 @@
             left: rem(10);
             background: url('../img/page/menu-window1.png') no-repeat;
             background-size: 100% auto;
+            div{
+                width: 100%;
+                height: 25%;
+            }
         }
     }
     .bt-more{
