@@ -12,7 +12,31 @@
     left: 50%;
     margin-left: rem(-303/2);
 }
-
+.chupaiqu-wrap{
+    position: absolute;
+    top: rem(420);
+    left: rem(-60);
+    width: 100%;
+    height: rem(190);
+    &-top{
+        position: relative;
+        height: rem(205);
+    }
+    &-bottom{
+        position: relative;
+        height: rem(205);
+    }
+    .pok{
+        position: absolute;
+        width: rem(130);
+        height: rem(190);
+        @for $i from 1 through 18 {
+            &:nth-child(#{$i}){
+                left: #{$i*60/75}rem;
+            }
+        }
+    }
+}
 .user-timeout-clock{
     position: absolute;
     width: rem(97);
@@ -161,6 +185,26 @@
     top: 0;
     background: #ba7b1c url('../img/page/game-main-table.jpg') no-repeat center rem(-130);
     background-size: 100% auto;
+    .jiaodizhu-tips{
+        position: absolute;
+        // width: rem(173);
+        width: rem(128);
+        height: rem(46);
+        background: url('../img/page/font-jiaodizhu.png') no-repeat;
+        background-size: rem(173) auto;
+        &.left{
+            top: rem(348);
+            left: rem(40);
+        }
+        &.right{
+            top: rem(348);
+            right: rem(40);
+        }
+        &.mine{
+            top: rem(448);
+            left: rem(200);
+        }
+    }
     .more-menu{
         position: absolute;
         width: 100%;
@@ -405,5 +449,33 @@
             margin-left: rem(15);
             margin-top: rem(5);
         }
+    }
+}
+
+
+.texiao{
+    &-spring{
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        margin-left: rem(-731/2);
+        width: rem(731);
+        height: rem(384);
+    }
+    &-zhadan{
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        margin-left: rem(-393/2);
+        width: rem(393);
+        height: rem(234);
+    }
+    &-wangzha{
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        margin-left: rem(-228/2);
+        width: rem(228);
+        height: rem(362);
     }
 }

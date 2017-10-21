@@ -9,6 +9,16 @@ $font_size : 75;
 @import "base/base";
 @import "base/page";
 @import "img";
+
+body{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
 .top-pocket-wrap{
     position: absolute;
     width: rem(159);
@@ -58,6 +68,9 @@ $font_size : 75;
                 &:nth-child(#{$i}){
                     left: #{$i*60/75}rem;
                 }
+            }
+            &.selected{
+                margin-bottom: rem(-30);
             }
         }
     }

@@ -94,9 +94,13 @@ var app = {
             carddata: POCKETARR.pocketArr
         }))
         jdata.threeCards
-        // 叫地主阶段
+        
         if(jdata.tableSt == 1){
+            // 叫地主阶段
             self.showCtrlJiaoDiZhu(jdata);
+        }else if(jdata.tableSt == 2){
+            // 游戏中
+            self.makeUpDiZhu(jdata);
         }
         if(!self.playInterVal){
             self.playInterVal = setInterval(function(){
@@ -115,7 +119,16 @@ var app = {
             self.showGameBt(1);
         }else{
             self.showGameBt();
-            
+        }
+        $('.jiaodizhu-tips').addClass('hide');
+        if(jdata.lUid == self.curUid){
+            $('.jiaodizhu-tips.mine').removeClass('hide');
+        }else{
+            if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('left')){
+                $('.jiaodizhu-tips.left').removeClass('hide');
+            }else if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('right')){
+                $('.jiaodizhu-tips.right').removeClass('hide');
+            }
         }
     },
     //  显示倒计时
@@ -158,6 +171,10 @@ var app = {
         var self = this;
         $('.top-pocket-wrap').removeClass('hide');
         self.showCtrlJiaoDiZhu();
+        // 插入地主牌
+        if(jdata.lUid == self.curUid){
+            $('.main-pocket-wrap-bottom').append($('.top-pocket-wrap').html());
+        }
     },
     bindEven: function(){
         var self = this;
@@ -200,7 +217,14 @@ var app = {
                 console.log('websocket not exist');
             }
         });
-
+        // 选牌
+        $('.js-game-playingui').on('click', '.pok', function(){
+            if($(this).hasClass('selected')){
+                $(this).removeClass('selected');
+            }else{
+                $(this).addClass('selected');
+            }
+        })
         // 更多菜单弹出
         $('.js-bt-more').on('click', function(){
             $('.js-more-menu').removeClass('hide');
