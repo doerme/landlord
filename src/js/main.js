@@ -110,8 +110,8 @@ var app = {
     // 叫地主显示
     showCtrlJiaoDiZhu: function(jdata){
         var self = this;
-        self.showTimeoutClock(jdata.currOpUid);
-        if(jdata.currOpUid == self.curUid){
+        self.showTimeoutClock(jdata ? jdata.currOpUid : '');
+        if(jdata && jdata.currOpUid == self.curUid){
             self.showGameBt(1);
         }else{
             self.showGameBt();
@@ -129,7 +129,7 @@ var app = {
         }else{
             if($(`.user-info-wrap[uid="${opuid}"]`).hasClass('left')){
                 $('.user-timeout-clock.left').removeClass('hide');
-            }else{
+            }else if($(`.user-info-wrap[uid="${opuid}"]`).hasClass('right')){
                 $('.user-timeout-clock.right').removeClass('hide');
             }
         }
@@ -150,8 +150,14 @@ var app = {
         var self = this;
         $('.js-mybt').addClass('hide');
         if(state == 1){
-            $('.bt-jiaodizhu').removeClass('hide');
+            $('.bt-jiaodizhu,.bt-bujiaodizhu').removeClass('hide');
         }
+    },
+    // 确定地主
+    makeUpDiZhu: function(jdata){
+        var self = this;
+        $('.top-pocket-wrap').removeClass('hide');
+        self.showCtrlJiaoDiZhu();
     },
     bindEven: function(){
         var self = this;
@@ -180,7 +186,20 @@ var app = {
             }else{
                 console.log('websocket not exist');
             }
-        })
+        });
+        // 不叫地主
+        $('.bt-bujiaodizhu').on('click', function(){
+            if(self.curWebSocket){
+                var param = {
+                    type: 'll',
+                    uid: self.curUid,
+                    op: 0,
+                }
+                self.curWebSocket.send(JSON.stringify(param));
+            }else{
+                console.log('websocket not exist');
+            }
+        });
 
         // 更多菜单弹出
         $('.js-bt-more').on('click', function(){
@@ -247,6 +266,9 @@ var app = {
                     if(jdata.st == 2){
                         // 选地主操作
                         self.showCtrlJiaoDiZhu(jdata);
+                    }else if(jdata.st == 3){
+                        // 确定地主
+                        self.makeUpDiZhu(jdata);
                     }
                     
                 }
