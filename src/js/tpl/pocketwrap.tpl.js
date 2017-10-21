@@ -1,2 +1,2 @@
-/*TMODJS:{"version":4,"md5":"15b4898c54774096c99e822f7e0b6aaa"}*/
-template("/Users/xiaominghari/Documents/wanrenqun/newsvn/web/landlord/landlord/src/js/tpl/pocketwrap",function(a){"use strict";var b=this,c=(b.$helpers,b.$each),d=a.num,e=(a.v,a.i,"");return c(d,function(){e+=' <img class="pok" src="./img/page/poker/back.png" /> '}),new String(e)});
+/*TMODJS:{"version":7,"md5":"0ce0d9f1d856b36411ef5a57ca620f91"}*/
+template("/Users/xiaominghari/Documents/wanrenqun/newsvn/web/landlord/landlord/src/js/tpl/pocketwrap",function(a){"use strict";var b=this,c=(b.$helpers,b.$each),d=a.cardarr,e=(a.v,a.i,b.$escape),f=a.carddata,g="";return c(d,function(a){g+=' <img class="pok" src="',g+=e(f[a]),g+='" /> '}),new String(g)});

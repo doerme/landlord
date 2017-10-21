@@ -13,6 +13,26 @@
     margin-left: rem(-303/2);
 }
 
+.user-timeout-clock{
+    position: absolute;
+    width: rem(97);
+    height: rem(98);
+    vertical-align: middle;
+    background: url('../img/page/timeout-clock.png') no-repeat rem(-4) top;
+    background-size: 100% auto;
+    font-size: rem(37);
+    text-align: center;
+    line-height: rem(98);
+    color: #FFF;
+    top: rem(150);
+    &.left{
+        left: rem(165);
+    }
+    &.right{
+        right: rem(165);
+    }
+}
+
 .ctrlright-view-wrap{
     position: absolute;
     left: 0;
@@ -204,7 +224,7 @@
         height: rem(90);
         vertical-align: middle;
     }
-    .bt-chupai{
+    .bt-chupai,.bt-jiaodizhu{
         display: inline-block;
         width: rem(181);
         height: rem(90);
@@ -214,7 +234,7 @@
         display: inline-block;
         width: rem(97);
         height: rem(98);
-        vertical-align: middle;
+        vertical-align: top;
         background: url('../img/page/timeout-clock.png') no-repeat rem(-4) top;
         background-size: 100% auto;
         font-size: rem(37);

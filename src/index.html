@@ -30,17 +30,15 @@
         <img class="bt-detail js-bt-detail" src="./img/page/bt-detail.png" />
         <!-- 头部牌容器 -->
         <div class="top-pocket-wrap">
-            <img class="pok" src="./img/page/poker/f2.png" />
-            <img class="pok" src="./img/page/poker/f3.png" />
-            <img class="pok" src="./img/page/poker/f4.png" />
         </div>
         <!-- 头部牌容器end -->
         <!-- 中部按钮条 -->
         <div class="mid-ctrl-line js-game-playingui hide">
-            <img class="bt-buchu" src="./img/page/bt-buchu.png" />
-            <div class="timeout-clock">10</div>
-            <img class="bt-tips" src="./img/page/bt-tips.png" />
-            <img class="bt-chupai" src="./img/page/bt-chupai.png" />
+            <img class="bt-buchu js-mybt" src="./img/page/bt-buchu.png" />
+            <div class="timeout-clock">--</div>
+            <img class="bt-tips js-mybt" src="./img/page/bt-tips.png" />
+            <img class="bt-chupai js-mybt" src="./img/page/bt-chupai.png" />
+            <img class="bt-jiaodizhu js-mybt" src="./img/page/bt-jiaodizhu.png" />
         </div>
         <!-- 中部按钮条end -->
         <!-- 坐下按钮 -->
@@ -50,18 +48,21 @@
         <img class="waitting-note js-game-waittingui" src="./img/page/wait-note.png" />
         <!-- 坐下按钮end -->
 
-        <!-- 用户信息 -->
+        <!-- 左右用户信息 -->
         <div class="user-info-wrap left hide">
             <div class="name">---</div>
             <div class="score">---</div>
         </div>
         <div class="pocket-num left hide">---</div>
+        <div class="user-timeout-clock left hide">10</div>
+
         <div class="user-info-wrap right hide">
             <div class="name">---</div>
             <div class="score">---</div>
         </div>
         <div class="pocket-num right hide">---</div>
-        <!-- 用户信息end -->
+        <div class="user-timeout-clock right hide">10</div>
+        <!-- 左右用户信息end -->
 
         <!-- 左牌区 -->
         <div class="user-pocket-wrap left js-game-playingui hide">

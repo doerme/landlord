@@ -1,3 +1,3 @@
-{{each num as v i}}
-<img class="pok" src="./img/page/poker/back.png" />
+{{each cardarr as v i}}
+    <img class="pok" src="{{carddata[v]}}" />
 {{/each}}

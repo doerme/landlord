@@ -70,6 +70,10 @@ var app = {
             cardarr: jdata.selfCardNos,
             carddata: POCKETARR.pocketArr
         }))
+        // 用户信息区
+        for(var n in jdata.playerInfos){
+            self.showSitDown(jdata.playerInfos[n]);
+        }
         // 对方牌区
         for(var n in jdata.cardNums){
             if($(`.user-info-wrap[uid="${n}"]`).hasClass('left')){
@@ -78,14 +82,30 @@ var app = {
                 $('.pocket-num.right').html(jdata.cardNums[n]).removeClass('hide');
             }
         }
-
-        // 用户信息区
-        for(var n in jdata.playerInfos){
-            self.showSitDown(jdata.playerInfos[n]);
+        // 地主牌堆
+        $('.top-pocket-wrap').html(PAGETPL.pocketwrap({
+            cardarr: jdata.threeCards,
+            carddata: POCKETARR.pocketArr
+        }))
+        jdata.threeCards
+        // 叫地主阶段
+        if(jdata.tableSt == 1){
+            if(jdata.currOpUid == self.curUid){
+                self.showGameBt(jdata.tableSt);
+            }else{
+                self.showGameBt();
+            }
         }
 
         $('.js-game-playingui').removeClass('hide');
         $('.js-game-waittingui').addClass('hide');
+    },
+    // 主区域控制按钮
+    showGameBt: function(state){
+        $('.js-mybt').addClass('hide');
+        if(state == 1){
+            $('.bt-jiaodizhu').removeClass('hide');
+        }
     },
     bindEven: function(){
         var self = this;

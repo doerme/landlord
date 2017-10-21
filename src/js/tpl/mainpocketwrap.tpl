@@ -3,7 +3,7 @@
     {{if i < 10}}
     <img class="pok" src="{{carddata[v]}}" />
     {{/if}}
-{{/each}}  
+{{/each}}
 </div>
 <div class="main-pocket-wrap-bottom">
 {{each cardarr as v i}}
