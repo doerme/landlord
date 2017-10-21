@@ -15,6 +15,8 @@ var PAGETPL = {
 var app = {
     hasInterval: 1, // 心跳状态
     playInterVal: null, // 玩家定时器
+    timeoutInterval: null, // 倒计时显示定时器
+    timeoutIntervalVal: 0, // 倒计时显示器显示值
     curWebSocket: null, 
     curUid: window.location.href.match(/uid=(\d+)/) ? window.location.href.match(/uid=(\d+)/)[1] : '1001',
     init: function(){
@@ -39,7 +41,7 @@ var app = {
             $('.game-wrap-foot-gold').html(jdata.score);
         }else{
             // 其他人坐下
-            if(!$('.user-info-wrap.left').attr('uid')){
+            if(!$('.user-info-wrap.left').attr('uid') || $('.user-info-wrap.left').attr('uid') == jdata.uid){
                 $('.user-info-wrap.left').attr({
                     uid: jdata.uid
                 });
@@ -50,7 +52,7 @@ var app = {
                 $('.user-info-wrap.left').find('.name').html(jdata.name);
                 $('.user-info-wrap.left').find('.score').html(jdata.score);
                 $('.user-info-wrap.left').removeClass('hide');
-            }else{
+            }else if(!$('.user-info-wrap.right').attr('uid') || $('.user-info-wrap.right').attr('uid') == jdata.uid){
                 $('.user-info-wrap.right').attr({
                     uid: jdata.uid
                 });
@@ -61,6 +63,8 @@ var app = {
                 $('.user-info-wrap.right').find('.name').html(jdata.name);
                 $('.user-info-wrap.right').find('.score').html(jdata.score);
                 $('.user-info-wrap.right').removeClass('hide');
+            }else{
+                console.log('not uid match', jdata.uid);
             }
         }
     },
@@ -92,11 +96,7 @@ var app = {
         jdata.threeCards
         // 叫地主阶段
         if(jdata.tableSt == 1){
-            if(jdata.currOpUid == self.curUid){
-                self.showGameBt(jdata.tableSt);
-            }else{
-                self.showGameBt();
-            }
+            self.showCtrlJiaoDiZhu(jdata);
         }
         if(!self.playInterVal){
             self.playInterVal = setInterval(function(){
@@ -107,8 +107,47 @@ var app = {
         $('.js-game-playingui').removeClass('hide');
         $('.js-game-waittingui').addClass('hide');
     },
+    // 叫地主显示
+    showCtrlJiaoDiZhu: function(jdata){
+        var self = this;
+        self.showTimeoutClock(jdata.currOpUid);
+        if(jdata.currOpUid == self.curUid){
+            self.showGameBt(1);
+        }else{
+            self.showGameBt();
+            
+        }
+    },
+    //  显示倒计时
+    showTimeoutClock: function(opuid){
+        var self = this;
+        console.log('showTimeoutClock', opuid, self.curUid);
+        $('.timeout-clock').addClass('hide');
+        $('.user-timeout-clock').addClass('hide');
+        if(opuid == self.curUid){
+            $('.timeout-clock').removeClass('hide');
+        }else{
+            if($(`.user-info-wrap[uid="${opuid}"]`).hasClass('left')){
+                $('.user-timeout-clock.left').removeClass('hide');
+            }else{
+                $('.user-timeout-clock.right').removeClass('hide');
+            }
+        }
+        self.timeoutIntervalVal = 20;
+        clearInterval(self.timeoutInterval);
+        self.timeoutInterval = setInterval(function(){
+            if(self.timeoutIntervalVal > 0){
+                self.timeoutIntervalVal--;
+                $('.timeout-clock').html(self.timeoutIntervalVal);
+                $('.user-timeout-clock').html(self.timeoutIntervalVal);
+            }else{
+                clearInterval(self.timeoutInterval);
+            }
+        },1000);
+    },
     // 主区域控制按钮
     showGameBt: function(state){
+        var self = this;
         $('.js-mybt').addClass('hide');
         if(state == 1){
             $('.bt-jiaodizhu').removeClass('hide');
@@ -116,7 +155,7 @@ var app = {
     },
     bindEven: function(){
         var self = this;
-        // sit-down-bt
+        // 坐下
         $('.sit-down-bt').on('click', function(){
             if(self.curWebSocket){
                 var param = {
@@ -128,6 +167,20 @@ var app = {
                 console.log('websocket not exist');
             }
         });
+
+        // 叫地主
+        $('.bt-jiaodizhu').on('click', function(){
+            if(self.curWebSocket){
+                var param = {
+                    type: 'll',
+                    uid: self.curUid,
+                    op: 1,
+                }
+                self.curWebSocket.send(JSON.stringify(param));
+            }else{
+                console.log('websocket not exist');
+            }
+        })
 
         // 更多菜单弹出
         $('.js-bt-more').on('click', function(){
@@ -180,6 +233,26 @@ var app = {
                     jdata = JSON.parse(jdata);
                 }
                 console.log('ws cb', jdata);
+                if(jdata.type == 'test' && jdata.uid == '-1'){
+                    self.hasInterval = 0;
+                }
+                if(jdata.type == 'll'){
+                    // jdata.st 
+                    /*
+                    1	重置牌局
+                    2	下一个叫地主
+                    3	确定地主
+                    4	重新匹配
+                    */
+                    if(jdata.st == 2){
+                        // 选地主操作
+                        self.showCtrlJiaoDiZhu(jdata);
+                    }
+                    
+                }
+                if(jdata.playCardType){
+                    // 出牌
+                }
                 if(jdata.player){
                     // 显示人
                     self.showSitDown(jdata.player);
