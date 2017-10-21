@@ -36,7 +36,7 @@
         </div>
         <!-- 头部牌容器end -->
         <!-- 中部按钮条 -->
-        <div class="mid-ctrl-line">
+        <div class="mid-ctrl-line js-game-playingui hide">
             <img class="bt-buchu" src="./img/page/bt-buchu.png" />
             <div class="timeout-clock">10</div>
             <img class="bt-tips" src="./img/page/bt-tips.png" />
@@ -44,24 +44,25 @@
         </div>
         <!-- 中部按钮条end -->
         <!-- 坐下按钮 -->
-        <img class="sit-down-bt one" src="./img/page/bt-sitdown.png" />
-        <img class="sit-down-bt two" src="./img/page/bt-sitdown.png" />
-        <img class="sit-down-bt three" src="./img/page/bt-sitdown.png" />
+        <img class="sit-down-bt one js-game-playingui hide" src="./img/page/bt-sitdown.png" />
+        <img class="sit-down-bt two js-game-playingui hide" src="./img/page/bt-sitdown.png" />
+        <img class="sit-down-bt three js-game-waittingui" src="./img/page/bt-sitdown.png" />
+        <img class="waitting-note js-game-waittingui" src="./img/page/wait-note.png" />
         <!-- 坐下按钮end -->
 
         <!-- 用户信息 -->
-        <div class="user-info-wrap left">
+        <div class="user-info-wrap left hide">
             <div class="name">Jeremy</div>
             <div class="score">3560</div>
         </div>
-        <div class="user-info-wrap right">
+        <div class="user-info-wrap right hide">
             <div class="name">Jeremy</div>
             <div class="score">3560</div>
         </div>
         <!-- 用户信息end -->
 
         <!-- 左牌区 -->
-        <div class="user-pocket-wrap left">
+        <div class="user-pocket-wrap left js-game-playingui hide">
             <img class="pok" src="./img/page/poker/f2.png" />
             <img class="pok" src="./img/page/poker/f3.png" />
             <img class="pok" src="./img/page/poker/f4.png" />
@@ -72,7 +73,7 @@
         <!-- 左牌区end -->
 
         <!-- 右牌区 -->
-        <div class="user-pocket-wrap right">
+        <div class="user-pocket-wrap right js-game-playingui hide">
             <img class="pok" src="./img/page/poker/f2.png" />
             <img class="pok" src="./img/page/poker/f3.png" />
             <img class="pok" src="./img/page/poker/f4.png" />
@@ -83,7 +84,7 @@
         <!-- 右牌区end -->
 
         <!-- 主牌区 -->
-        <div class="main-pocket-wrap">
+        <div class="main-pocket-wrap js-game-playingui hide">
             <div class="main-pocket-wrap-top">
                 <img class="pok" src="./img/page/poker/f2.png" />
                 <img class="pok" src="./img/page/poker/f3.png" />
@@ -105,7 +106,9 @@
 
         <!-- 底栏 -->
         <div class="game-wrap-foot">
-            <div class="game-wrap-foot-gold"></div>
+            <div class="game-wrap-foot-gold">
+                ---
+            </div>
             <img class="game-wrap-foot-avatar" src="./img/page/head_eg.png" />
             <img class="game-wrap-foot-im2" src="./img/page/bt-im2.png" />
             <img class="game-wrap-foot-im1" src="./img/page/bt-im1.png" />
@@ -215,6 +218,23 @@
     </div>
     <!-- ctrlright-view 右侧栏 end -->
 
+    <!-- im输入框 -->
+    <div class="im-wrap js-im-wrap hide">
+        <div class="im-wrap-mask"></div>
+        <div class="im-wrap-main">
+            <ul class="im-wrap-main-tab">
+                <li class="cur"></li>
+                <li></li>
+                <li></li>
+            </ul>
+            <div class="im-wrap-main-msg">
+
+            </div>
+        </div>
+    </div>
+    <!-- im输入框 end -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"></script>
     <script src="./js/main.js"></script>
     
 </body>
