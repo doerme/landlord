@@ -1,0 +1,2 @@
+/*TMODJS:{"version":4,"md5":"15b4898c54774096c99e822f7e0b6aaa"}*/
+template("/Users/xiaominghari/Documents/wanrenqun/newsvn/web/landlord/landlord/src/js/tpl/pocketwrap",function(a){"use strict";var b=this,c=(b.$helpers,b.$each),d=a.num,e=(a.v,a.i,"");return c(d,function(){e+=' <img class="pok" src="./img/page/poker/back.png" /> '}),new String(e)});

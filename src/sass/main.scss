@@ -83,6 +83,24 @@ $font_size : 75;
             right: rem(-30);
         }
     }
+    .pocket-num{
+        position: absolute;
+        width: rem(45);
+        height: rem(60);
+        font-size: rem(26);
+        color: #FFF;
+        top:rem(290);
+        background: url('../img/page/poker/back.png') no-repeat;
+        background-size: 100% auto;
+        text-align: center;
+        line-height: rem(60); 
+        &.left{
+            left: rem(220);
+        }
+        &.right{
+            right: rem(220);
+        }
+    }
     .user-info-wrap{
         position: absolute;
         top: rem(290);

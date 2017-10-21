@@ -1,3 +1,5 @@
+import POCKETARR from './lib/pocket.js';
+import UTIL from './lib/util.js';
 setTimeout(function() {
     $('.js-loading-line').addClass('full');
 }, 100);
@@ -5,6 +7,10 @@ setTimeout(function() {
 /** 房间状态 */
 var ROOMSTATE = 5; /**5.游戏初始化 1.叫地主阶段 3.游戏中 2.游戏结算 */
 var DFAVATAR = 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=807731740,1529657662&fm=111&gp=0.jpg';
+var PAGETPL = {
+    mainpocketwrap: require('./tpl/mainpocketwrap.tpl'),
+    pocketwrap: require('./tpl/pocketwrap.tpl')
+}
 
 var app = {
     curWebSocket: null,
@@ -31,7 +37,10 @@ var app = {
             $('.game-wrap-foot-gold').html(jdata.score);
         }else{
             // 其他人坐下
-            if($('.user-info-wrap.left').hasClass('joined')){
+            if(!$('.user-info-wrap.left').attr('uid')){
+                $('.user-info-wrap.left').attr({
+                    uid: jdata.uid
+                });
                 $('.sit-down-bt.one').attr({
                     src: jdata.avatar
                 }).removeClass('hide');
@@ -40,16 +49,43 @@ var app = {
                 $('.user-info-wrap.left').find('.score').html(jdata.score);
                 $('.user-info-wrap.left').removeClass('hide');
             }else{
+                $('.user-info-wrap.right').attr({
+                    uid: jdata.uid
+                });
                 $('.sit-down-bt.two').attr({
                     src: jdata.avatar
                 }).removeClass('hide');
                 //nickName score
-                $('.user-info-wrap.right').find('.name').html(jdata.nickName);
+                $('.user-info-wrap.right').find('.name').html(jdata.name);
                 $('.user-info-wrap.right').find('.score').html(jdata.score);
                 $('.user-info-wrap.right').removeClass('hide');
             }
         }
+    },
+    // 游戏可以开始显示
+    showCanBegin: function(jdata){
+        var self = this;
+        // 自己牌区
+        $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
+            cardarr: jdata.selfCardNos,
+            carddata: POCKETARR.pocketArr
+        }))
+        // 对方牌区
+        for(var n in jdata.cardNums){
+            if($(`.user-info-wrap[uid="${n}"]`).hasClass('left')){
+                $('.pocket-num.left').html(jdata.cardNums[n]).removeClass('hide');
+            }else{
+                $('.pocket-num.right').html(jdata.cardNums[n]).removeClass('hide');
+            }
+        }
 
+        // 用户信息区
+        for(var n in jdata.playerInfos){
+            self.showSitDown(jdata.playerInfos[n]);
+        }
+
+        $('.js-game-playingui').removeClass('hide');
+        $('.js-game-waittingui').addClass('hide');
     },
     bindEven: function(){
         var self = this;
@@ -117,10 +153,13 @@ var app = {
                     jdata = JSON.parse(jdata);
                 }
                 console.log('ws cb', jdata);
-                switch(jdata.type){
-                    case 'jt':
+                if(jdata.player){
+                    // 显示人
                     self.showSitDown(jdata.player);
-                    break;
+                } 
+                if(jdata.tableInfo){
+                    // 显示牌局
+                    self.showCanBegin(jdata.tableInfo);
                 }
             }
         }
