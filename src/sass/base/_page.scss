@@ -268,7 +268,7 @@
         height: rem(90);
         vertical-align: middle;
     }
-    .bt-chupai,.bt-jiaodizhu,.bt-bujiaodizhu{
+    .bt-chupai,.bt-jiaodizhu,.bt-bujiaodizhu,.bt-buchu{
         display: inline-block;
         width: rem(181);
         height: rem(90);
@@ -477,5 +477,116 @@
         margin-left: rem(-228/2);
         width: rem(228);
         height: rem(362);
+    }
+}
+
+.game-result-wrap{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    .rs-bt{
+        position: absolute;
+        width: rem(261);
+        height: rem(90);
+        top: rem(880);
+        &.left{
+            left: rem(110);
+        }
+        &.right{
+            right: rem(110);
+        }
+    }
+    .game-result-mask{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: rgba(0,0,0,0.6);
+    }
+    .game-result-main{
+        position: absolute;
+        width: rem(620);
+        height: rem(800);
+        top: 5%;
+        left: 50%;
+        margin-left: rem(-620/2);
+        &.dz-win{
+            width: rem(590);
+            height: rem(743);
+            margin-left: rem(-590/2);
+            background: url('../img/page/resultmask/win-window.png') no-repeat;
+            background-size: 100% auto;
+        }
+        &.pm-win{
+            width: rem(586);
+            height: rem(736);
+            margin-left: rem(-586/2);
+            background: url('../img/page/resultmask/win-window2.png') no-repeat;
+            background-size: 100% auto;
+        }
+        &.dz-lose{
+            width: rem(618);
+            height: rem(726);
+            margin-left: rem(-618/2);
+            background: url('../img/page/resultmask/lose-window.png') no-repeat;
+            background-size: 100% auto;
+        }
+        &.pm-lose{
+            width: rem(615);
+            height: rem(723);
+            margin-left: rem(-615/2);
+            background: url('../img/page/resultmask/lose-window2.png') no-repeat;
+            background-size: 100% auto;
+        }
+    }
+    .user-list{
+        position: absolute;
+        width: rem(400);
+        top: rem(446);
+        left: 50%;
+        margin-left: rem(-200);
+        li{
+            position: relative;
+            width: rem(400);
+            height: rem(60);
+            line-height: rem(60);
+            border: rem(2) solid #d6c28f;
+            border-radius: rem(60);
+            background: #ffeab3;
+            margin-top: rem(10);
+            .ul-avatar{
+                position: absolute;
+                display: inline-block;
+                width: rem(66);
+                height: rem(66);
+                left: rem(-3);
+                top: rem(-3);
+                border-radius: 50%;
+            }
+            .ul-name{
+                position: absolute;
+                top: 0;
+                left: rem(80);
+                display: inline-block;
+                width: rem(160);
+                font-size: rem(28);
+                color: #1a1a1a;
+            }
+            .ul-gold{
+                position: absolute;
+                right: rem(0);
+                top: rem(0);
+                display: inline-block;
+                background: url('../img/page/gold-icon.png') no-repeat left center; 
+                background-size: rem(36) rem(34);                
+                width: rem(160);
+                font-size: rem(28);
+                color: #1a1a1a;
+                text-indent: rem(40);
+            }
+        }
     }
 }

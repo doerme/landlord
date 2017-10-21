@@ -114,16 +114,16 @@ var app = {
     // 叫地主显示
     showCtrlJiaoDiZhu: function(jdata){
         var self = this;
-        self.showTimeoutClock(jdata ? jdata.currOpUid : '');
+        self.showTimeoutClock(jdata ? jdata.currOpUid : '', 20);
         if(jdata && jdata.currOpUid == self.curUid){
             self.showGameBt(1);
         }else{
             self.showGameBt();
         }
         $('.jiaodizhu-tips').addClass('hide');
-        if(jdata.lUid == self.curUid){
+        if(jdata && jdata.lUid == self.curUid){
             $('.jiaodizhu-tips.mine').removeClass('hide');
-        }else{
+        }else if(jdata){
             if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('left')){
                 $('.jiaodizhu-tips.left').removeClass('hide');
             }else if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('right')){
@@ -132,7 +132,7 @@ var app = {
         }
     },
     //  显示倒计时
-    showTimeoutClock: function(opuid){
+    showTimeoutClock: function(opuid, timeoutval){
         var self = this;
         console.log('showTimeoutClock', opuid, self.curUid);
         $('.timeout-clock').addClass('hide');
@@ -146,7 +146,7 @@ var app = {
                 $('.user-timeout-clock.right').removeClass('hide');
             }
         }
-        self.timeoutIntervalVal = 20;
+        self.timeoutIntervalVal = timeoutval;
         clearInterval(self.timeoutInterval);
         self.timeoutInterval = setInterval(function(){
             if(self.timeoutIntervalVal > 0){
@@ -174,6 +174,16 @@ var app = {
         // 插入地主牌
         if(jdata.lUid == self.curUid){
             $('.main-pocket-wrap-bottom').append($('.top-pocket-wrap').html());
+        }
+        self.showChuPaiCtrl(jdata.lUid);
+        self.showTimeoutClock(jdata ? jdata.lUid : '', 20);
+    },
+    // 当前出牌UI展示
+    showChuPaiCtrl: function(playuid){
+        var self = this;
+        if(playuid == self.curUid){
+            $('.js-mybt').addClass('hide');
+            $('.bt-chupai,.bt-buchu').removeClass('hide');
         }
     },
     bindEven: function(){
@@ -224,6 +234,10 @@ var app = {
             }else{
                 $(this).addClass('selected');
             }
+        });
+        // 获奖弹窗关闭
+        $('.game-result-mask').on('click', function(){
+            $('.game-result-wrap').addClass('hide');
         })
         // 更多菜单弹出
         $('.js-bt-more').on('click', function(){
