@@ -13,7 +13,9 @@ var PAGETPL = {
 }
 
 var app = {
-    curWebSocket: null,
+    hasInterval: 1, // 心跳状态
+    playInterVal: null, // 玩家定时器
+    curWebSocket: null, 
     curUid: window.location.href.match(/uid=(\d+)/) ? window.location.href.match(/uid=(\d+)/)[1] : '1001',
     init: function(){
         var self = this;
@@ -44,8 +46,8 @@ var app = {
                 $('.sit-down-bt.one').attr({
                     src: jdata.avatar
                 }).removeClass('hide');
-                //nickName score
-                $('.user-info-wrap.left').find('.name').html(jdata.nickName);
+                //name score
+                $('.user-info-wrap.left').find('.name').html(jdata.name);
                 $('.user-info-wrap.left').find('.score').html(jdata.score);
                 $('.user-info-wrap.left').removeClass('hide');
             }else{
@@ -55,7 +57,7 @@ var app = {
                 $('.sit-down-bt.two').attr({
                     src: jdata.avatar
                 }).removeClass('hide');
-                //nickName score
+                //name score
                 $('.user-info-wrap.right').find('.name').html(jdata.name);
                 $('.user-info-wrap.right').find('.score').html(jdata.score);
                 $('.user-info-wrap.right').removeClass('hide');
@@ -96,7 +98,12 @@ var app = {
                 self.showGameBt();
             }
         }
-
+        if(!self.playInterVal){
+            self.playInterVal = setInterval(function(){
+                self.getWSInterval();
+            }, 1000);
+        }
+        
         $('.js-game-playingui').removeClass('hide');
         $('.js-game-waittingui').addClass('hide');
     },
@@ -184,6 +191,16 @@ var app = {
             }
         }
         self.initSocket(option);
+    },
+    getWSInterval: function(){
+        var self = this;
+        var param = {
+            type: 'test',
+            uid: self.curUid,
+            st: self.hasInterval,
+        }
+        self.curWebSocket.send(JSON.stringify(param));
+        //self.hasInterval = 0;
     },
     initSocket: function(option) {
         var self = this;
