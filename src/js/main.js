@@ -99,8 +99,15 @@ var app = {
             // 叫地主阶段
             self.showCtrlJiaoDiZhu(jdata);
         }else if(jdata.tableSt == 2){
-            // 游戏中
-            self.makeUpDiZhu(jdata);
+            
+            if(jdata.currOpUid){
+                self.showChuPaiView(jdata);
+            }else{
+                // 游戏中第一轮
+                self.makeUpDiZhu(jdata);
+            }
+        }else if(jdata.tableSt == 3){
+            // 游戏结束
         }
         if(!self.playInterVal){
             self.playInterVal = setInterval(function(){
@@ -178,6 +185,25 @@ var app = {
         self.showChuPaiCtrl(jdata.lUid);
         self.showTimeoutClock(jdata ? jdata.lUid : '', 20);
     },
+    // 出牌展示
+    showChuPaiView: function(jdata){
+        var self = this;
+        console.log('showChuPaiView', jdata);
+        if(jdata.lastCardNos){
+            $('.js-chupaiqu-wrap').html(PAGETPL.pocketwrap({
+                cardarr: jdata.lastCardNos,
+                carddata: POCKETARR.pocketArr
+            })).removeClass('hide');
+        }
+
+        if(jdata.lastPlayCardUid == self.curUid){
+            $('.js-game-playingui .selected').remove();
+        }
+
+        self.showChuPai({
+            uid: jdata.currOpUid
+        });
+    },
     // 出牌轮换
     showChuPai: function(jdata){
         var self = this;
@@ -187,8 +213,8 @@ var app = {
     // 当前出牌UI展示
     showChuPaiCtrl: function(playuid){
         var self = this;
+        $('.js-mybt').addClass('hide');
         if(playuid == self.curUid){
-            $('.js-mybt').addClass('hide');
             $('.bt-chupai,.bt-buchu').removeClass('hide');
         }
     },
@@ -318,7 +344,7 @@ var app = {
     beginWS: function(){
         var self = this;
         var option = {
-            url: 'ws://192.168.1.4:7272',
+            url: 'ws://120.26.207.102:7272',
             callback: function(jdata){
                 if(typeof(jdata) == 'string'){
                     jdata = JSON.parse(jdata);
@@ -346,14 +372,11 @@ var app = {
                 if(jdata.type == 'play'){
                     if(jdata.s == 7){
                         UTIL.windowToast('非法出牌');
+                    }else if(jdata.s == 1){
+                        self.showChuPaiView(jdata);
                     }
-                    self.showChuPai({
-                        uid: jdata.currOpUid
-                    });
                 }
-                if(jdata.playCardType){
-                    // 出牌
-                }
+                
                 if(jdata.player){
                     // 显示人
                     self.showSitDown(jdata.player);
@@ -416,7 +439,7 @@ var app = {
                 tid: 2010, /**  房间id*/
                 score: 200,
                 uids: [1001,1002,1003],
-                isReConn: 0,
+                isReConn: 1, // 1重连 0第一次连 
                 name: self.curUid,
                 avatar: DFAVATAR,
             }
