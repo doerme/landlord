@@ -178,6 +178,12 @@ var app = {
         self.showChuPaiCtrl(jdata.lUid);
         self.showTimeoutClock(jdata ? jdata.lUid : '', 20);
     },
+    // 出牌轮换
+    showChuPai: function(jdata){
+        var self = this;
+        self.showChuPaiCtrl(jdata.uid);
+        self.showTimeoutClock(jdata ? jdata.uid : '', 20);
+    },
     // 当前出牌UI展示
     showChuPaiCtrl: function(playuid){
         var self = this;
@@ -233,6 +239,34 @@ var app = {
                 $(this).removeClass('selected');
             }else{
                 $(this).addClass('selected');
+            }
+        });
+        // 出牌
+        $('.bt-chupai').on('click', function(){
+            if(self.curWebSocket){
+                var param = {
+                    type: 'play',
+                    uid: self.curUid,
+                    playCardNos: UTIL.getChuPai(),
+                    op: 1,
+                }
+                self.curWebSocket.send(JSON.stringify(param));
+            }else{
+                console.log('websocket not exist');
+            }
+        });
+        // 不出牌
+        $('.bt-buchu').on('click', function(){
+            if(self.curWebSocket){
+                var param = {
+                    type: 'play',
+                    uid: self.curUid,
+                    playCardNos: [],
+                    op: 1,
+                }
+                self.curWebSocket.send(JSON.stringify(param));
+            }else{
+                console.log('websocket not exist');
             }
         });
         // 获奖弹窗关闭
@@ -308,7 +342,14 @@ var app = {
                         // 确定地主
                         self.makeUpDiZhu(jdata);
                     }
-                    
+                }
+                if(jdata.type == 'play'){
+                    if(jdata.s == 7){
+                        UTIL.windowToast('非法出牌');
+                    }
+                    self.showChuPai({
+                        uid: jdata.currOpUid
+                    });
                 }
                 if(jdata.playCardType){
                     // 出牌

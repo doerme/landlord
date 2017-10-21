@@ -132,5 +132,12 @@ export default {
             arr.push(n);
         }
         return arr;
+    },
+    getChuPai: function(){
+        var rsArr = [];
+        $('.js-game-playingui .selected').each(function(){
+            rsArr.push($(this).attr('pknum'));
+        })
+        return rsArr;
     }
 }
