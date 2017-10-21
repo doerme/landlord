@@ -7,8 +7,9 @@ $font_size : 75;
 }
 
 @import "base/base";
-@import "base/page";
+
 @import "img";
+@import "base/page";
 
 body{
     position: absolute;

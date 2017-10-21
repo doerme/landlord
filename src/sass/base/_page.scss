@@ -14,25 +14,20 @@
 }
 .chupaiqu-wrap{
     position: absolute;
-    top: rem(400);
+    top: rem(370);
     left: rem(-40);
     width: 100%;
     height: rem(190);
-    &-top{
-        position: relative;
-        height: rem(205);
-    }
-    &-bottom{
-        position: relative;
-        height: rem(205);
-    }
+    text-align: center;
     .pok{
-        position: absolute;
+        display: inline-block;
+        // position: absolute;
         width: rem(130);
         height: rem(190);
-        @for $i from 1 through 18 {
+        @for $i from 2 through 18 {
             &:nth-child(#{$i}){
-                left: #{$i*60/75}rem;
+                //left: #{$i*60/75}rem;
+                margin-left: rem(-60);
             }
         }
     }

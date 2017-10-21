@@ -19,6 +19,7 @@ var app = {
     timeoutIntervalVal: 0, // 倒计时显示器显示值
     curWebSocket: null, 
     curUid: window.location.href.match(/uid=(\d+)/) ? window.location.href.match(/uid=(\d+)/)[1] : '1001',
+    curRoomId: window.location.href.match(/roomid=(\d+)/) ? window.location.href.match(/roomid=(\d+)/)[1] : '1001',
     init: function(){
         var self = this;
         $('.js-loading-wrap').addClass('hide');
@@ -84,7 +85,7 @@ var app = {
         for(var n in jdata.cardNums){
             if($(`.user-info-wrap[uid="${n}"]`).hasClass('left')){
                 $('.pocket-num.left').html(jdata.cardNums[n]).removeClass('hide');
-            }else{
+            }else if($(`.user-info-wrap[uid="${n}"]`).hasClass('right')){
                 $('.pocket-num.right').html(jdata.cardNums[n]).removeClass('hide');
             }
         }
@@ -181,7 +182,12 @@ var app = {
         // 插入地主牌
         if(jdata.lUid == self.curUid){
             $('.main-pocket-wrap-bottom').append($('.top-pocket-wrap').html());
+            $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
+                cardarr: UTIL.deskRebuild(false),
+                carddata: POCKETARR.pocketArr
+            }))
         }
+
         self.showChuPaiCtrl(jdata.lUid);
         self.showTimeoutClock(jdata ? jdata.lUid : '', 20);
     },
@@ -197,7 +203,19 @@ var app = {
         }
 
         if(jdata.lastPlayCardUid == self.curUid){
-            $('.js-game-playingui .selected').remove();
+
+            $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
+                cardarr: UTIL.deskRebuild(true),
+                carddata: POCKETARR.pocketArr
+            }))
+        }
+
+        if(jdata.lastOpCardNum){
+            if($(`.user-info-wrap[uid="${jdata.lastOpUid}"]`).hasClass('left')){
+                $('.pocket-num.left').html(jdata.lastOpCardNum).removeClass('hide');
+            }else if($(`.user-info-wrap[uid="${jdata.lastOpUid}"]`).hasClass('right')){
+                $('.pocket-num.right').html(jdata.lastOpCardNum).removeClass('hide');
+            }
         }
 
         self.showChuPai({
@@ -260,7 +278,7 @@ var app = {
             }
         });
         // 选牌
-        $('.js-game-playingui').on('click', '.pok', function(){
+        $('.main-pocket-wrap').on('click', '.pok', function(){
             if($(this).hasClass('selected')){
                 $(this).removeClass('selected');
             }else{
@@ -420,7 +438,7 @@ var app = {
             var param = {
                 type: 'login',
                 uid: self.curUid,
-                tid: 2010, /**  房间id*/
+                tid: self.curRoomId, /**  房间id*/
                 score: 200,
                 uids: [1001,1002,1003],
                 isReConn: 1,
@@ -436,7 +454,7 @@ var app = {
             var param = {
                 type: 'login',
                 uid: self.curUid,
-                tid: 2010, /**  房间id*/
+                tid: self.curRoomId, /**  房间id*/
                 score: 200,
                 uids: [1001,1002,1003],
                 isReConn: 1, // 1重连 0第一次连 

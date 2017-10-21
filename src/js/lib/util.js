@@ -139,5 +139,15 @@ export default {
             rsArr.push($(this).attr('pknum'));
         })
         return rsArr;
+    },
+    deskRebuild: function(removeselected){
+        var rsArr = [];
+        if(removeselected){
+            $('.js-game-playingui .selected').remove();
+        }
+        $('.js-game-playingui .pok').each(function(){
+            rsArr.push($(this).attr('pknum'));
+        })
+        return rsArr.sort();
     }
 }
