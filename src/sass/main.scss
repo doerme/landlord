@@ -20,6 +20,21 @@ body{
     overflow: hidden;
 }
 
+.top-user-wrap{
+    position: absolute;
+    top: rem(122);
+    left: 0;
+    width: 100%;
+    height: rem(50);
+    text-align: center;
+    img{
+        display: inline-block;
+        width: rem(50);
+        height: rem(50);
+        border-radius: 50%;
+    }
+}
+
 .top-pocket-wrap{
     position: absolute;
     width: rem(159);
