@@ -1,5 +1,6 @@
 import POCKETARR from './lib/pocket.js';
 import UTIL from './lib/util.js';
+$('.loading-wrap-font').html(`${window.location.href.match(/uid=(\d+)/) ? window.location.href.match(/uid=(\d+)/)[1] : '1001'}在四处找板凳`);
 setTimeout(function() {
     $('.js-loading-line').addClass('full');
 }, 100);
@@ -17,7 +18,8 @@ var app = {
     playInterVal: null, // 玩家定时器
     timeoutInterval: null, // 倒计时显示定时器
     timeoutIntervalVal: 0, // 倒计时显示器显示值
-    curWebSocket: null, 
+    timeoutIntervalBeginVal: 0, // 倒计时开始值
+    curWebSocket: null,
     curUid: window.location.href.match(/uid=(\d+)/) ? window.location.href.match(/uid=(\d+)/)[1] : '1001',
     curRoomId: window.location.href.match(/roomid=(\d+)/) ? window.location.href.match(/roomid=(\d+)/)[1] : '1001',
     init: function(){
@@ -132,11 +134,18 @@ var app = {
     // 游戏可以开始显示
     showCanBegin: function(jdata){
         var self = this;
+
+        if(jdata.playerInfos){
+            // 直接渲染房间人数
+            for(var n in jdata.playerInfos){
+                self.showSitDown(jdata.playerInfos[n]);
+            }
+        }
         // 自己牌区
         $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
             cardarr: jdata.selfCardNos,
             carddata: POCKETARR.pocketArr
-        }))
+        }));
         // 对方牌区
         for(var n in jdata.cardNums){
             if($(`.user-info-wrap[uid="${n}"]`).hasClass('left')){
@@ -166,10 +175,17 @@ var app = {
         }else if(jdata.tableSt == 3){
             // 游戏结束
         }
+
+        // 心跳倒计时
         if(!self.playInterVal){
             self.playInterVal = setInterval(function(){
                 self.getWSInterval();
             }, 1000);
+        }
+
+        // 缓存上一次操作时间
+        if(jdata.rTime){
+            window.localStorage.setItem('localrtime', jdata.rTime);
         }
         
         $('.js-game-playingui').removeClass('hide');
@@ -178,7 +194,7 @@ var app = {
     // 叫地主显示
     showCtrlJiaoDiZhu: function(jdata){
         var self = this;
-        self.showTimeoutClock(jdata ? jdata.currOpUid : '', 20);
+        self.showTimeoutClock(jdata ? jdata.currOpUid : '', self.timeoutIntervalBeginVal);
         if(jdata && jdata.currOpUid == self.curUid){
             self.showGameBt(1);
         }else{
@@ -198,6 +214,9 @@ var app = {
     //  显示倒计时
     showTimeoutClock: function(opuid, timeoutval){
         var self = this;
+        if(!opuid){
+            return;
+        }
         console.log('showTimeoutClock', opuid, self.curUid);
         $('.timeout-clock').addClass('hide');
         $('.user-timeout-clock').addClass('hide');
@@ -245,7 +264,7 @@ var app = {
         }
 
         self.showChuPaiCtrl(jdata.lUid);
-        self.showTimeoutClock(jdata ? jdata.lUid : '', 20);
+        self.showTimeoutClock(jdata ? jdata.lUid : '', self.timeoutIntervalBeginVal);
     },
     // 出牌展示
     showChuPaiView: function(jdata){
@@ -296,7 +315,7 @@ var app = {
     showChuPai: function(jdata){
         var self = this;
         self.showChuPaiCtrl(jdata.uid);
-        self.showTimeoutClock(jdata ? jdata.uid : '', 20);
+        self.showTimeoutClock(jdata ? jdata.uid : '', self.timeoutIntervalBeginVal);
     },
     // 当前出牌UI展示
     showChuPaiCtrl: function(playuid){
@@ -498,9 +517,22 @@ var app = {
                     jdata = JSON.parse(jdata);
                 }
                 console.log('ws cb', jdata);
+                // 心跳设置
                 if(jdata.type == 'test' && jdata.uid == '-1'){
                     self.hasInterval = 0;
                 }
+                // 倒计时开始时间覆盖
+                if(jdata.playTime || jdata.landlordTime){
+                    self.timeoutIntervalBeginVal = jdata.playTime || jdata.landlordTime;
+                }
+
+                // 重连倒计时操作
+                if(jdata.nowTime && window.localStorage.getItem('localrtime')){
+                    self.timeoutIntervalBeginVal = self.timeoutIntervalBeginVal - (jdata.nowTime - window.localStorage.getItem('localrtime'));
+                    self.showTimeoutClock(jdata ? jdata.currOpUid : '', self.timeoutIntervalBeginVal);
+                    console.log('reset time begin val', self.timeoutIntervalBeginVal);
+                }
+
                 if(jdata.type == 'll'){
                     // jdata.st 
                     /*
@@ -555,6 +587,11 @@ var app = {
                 if(jdata.tableInfo){
                     // 显示牌局
                     self.showCanBegin(jdata.tableInfo);
+                }
+
+                // 缓存上一次操作时间
+                if(jdata.rTime){
+                    window.localStorage.setItem('localrtime', jdata.rTime);
                 }
             }
         }
