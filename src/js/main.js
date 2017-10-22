@@ -603,7 +603,7 @@ var app = {
 
                 // 等待人齐阶段
                 if(jdata.type == 'jt'){
-                    self.getWSInterval();
+                    // self.getWSInterval();
                     if(jdata.playerInfos){
                         // 直接渲染房间人数
                         for(var n in jdata.playerInfos){
