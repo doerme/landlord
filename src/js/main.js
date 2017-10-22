@@ -32,32 +32,45 @@ var app = {
         var self = this;
     },
     // 位置坐下显示
-    // state 3坐下  8站起
-    showSitDown: function(jdata, state){
+    // status -1不在房间  0未准备  1已准备 2游戏中 3托管中
+    showSitDown: function(jdata){
         var self = this;
         if(jdata.uid == self.curUid){
-            if(state == 8){
+            if(jdata.status == -1){
             // 自己离开
                 $('.game-wrap-foot-avatar').attr({
                     src: '../img/page/head_eg.png'
                 });
                 $('.game-wrap-foot-gold').html(0);
-            }
-            if(state == 3){
+                $(`.top-user-wrap > img[uid="${jdata.uid}"]`).remove();
+                $('.sit-down-bt.three').removeClass('hide');
+            }else if(jdata.status == 1 || jdata.status == 2 || jdata.status == 3){
             // 自己坐下
                 $('.game-wrap-foot-avatar').attr({
                     src: jdata.avatar
                 });
                 $('.game-wrap-foot-gold').html(jdata.score);
+                $(`.top-user-wrap > img[uid="${jdata.uid}"]`).remove();
+                $('.sit-down-bt.three').addClass('hide');
+            }else{
+                $('.sit-down-bt.three').removeClass('hide');
+                if($(`.top-user-wrap > img[uid="${jdata.uid}"]`).size() == 0){
+                    $('.game-wrap-foot-avatar').attr({
+                        src: '../img/page/head_eg.png'
+                    });
+                    $('.game-wrap-foot-gold').html(0);
+                    $('.top-user-wrap').append(`<img uid="${jdata.uid}" src="${jdata.avatar}" />`);
+                }
             }
         }else{
             // 其他人坐下 or 离开
             if(!$('.user-info-wrap.left').attr('uid') || $('.user-info-wrap.left').attr('uid') == jdata.uid){
-                if(state == 8){
+                if(jdata.status == -1){
                     $('.user-info-wrap.left').removeAttr('uid');
                     $('.sit-down-bt.one').addClass('hide');
                     $('.user-info-wrap.left').addClass('hide');
-                }else{
+                    $(`.top-user-wrap > img[uid="${jdata.uid}"]`).remove();
+                }else if(jdata.status == 1 || jdata.status == 2 || jdata.status == 3){
                     $('.user-info-wrap.left').attr({
                         uid: jdata.uid
                     });
@@ -68,13 +81,22 @@ var app = {
                     $('.user-info-wrap.left').find('.name').html(jdata.name);
                     $('.user-info-wrap.left').find('.score').html(jdata.score);
                     $('.user-info-wrap.left').removeClass('hide');
+                    $(`.top-user-wrap > img[uid="${jdata.uid}"]`).remove();
+                }else{
+                    if($(`.top-user-wrap > img[uid="${jdata.uid}"]`).size() == 0){
+                        $('.user-info-wrap.left').removeAttr('uid');
+                        $('.sit-down-bt.one').addClass('hide');
+                        $('.user-info-wrap.left').addClass('hide');
+                        $('.top-user-wrap').append(`<img uid="${jdata.uid}" src="${jdata.avatar}" />`);
+                    }
                 }
             }else if(!$('.user-info-wrap.right').attr('uid') || $('.user-info-wrap.right').attr('uid') == jdata.uid){
-                if(state == 8){
+                if(jdata.status == -1){
                     $('.user-info-wrap.right').removeAttr('uid');
                     $('.sit-down-bt.two').addClass('hide');
                     $('.user-info-wrap.right').addClass('hide');
-                }else{
+                    $(`.top-user-wrap > img[uid="${jdata.uid}"]`).remove();
+                }else if(jdata.status == 1 || jdata.status == 2 || jdata.status == 3){
                     $('.user-info-wrap.right').attr({
                         uid: jdata.uid
                     });
@@ -85,6 +107,14 @@ var app = {
                     $('.user-info-wrap.right').find('.name').html(jdata.name);
                     $('.user-info-wrap.right').find('.score').html(jdata.score);
                     $('.user-info-wrap.right').removeClass('hide');
+                    $(`.top-user-wrap > img[uid="${jdata.uid}"]`).remove()
+                }else{
+                    if($(`.top-user-wrap > img[uid="${jdata.uid}"]`).size() == 0){
+                        $('.user-info-wrap.right').removeAttr('uid');
+                        $('.sit-down-bt.two').addClass('hide');
+                        $('.user-info-wrap.right').addClass('hide');
+                        $('.top-user-wrap').append(`<img uid="${jdata.uid}" src="${jdata.avatar}" />`);
+                    }
                 }
             }else{
                 console.log('not uid match', jdata.uid);
@@ -96,7 +126,7 @@ var app = {
         var self = this;
         // 用户信息区
         for(var n in jdata){
-            self.showSitDown(jdata[n], 3);
+            self.showSitDown(jdata[n]);
         }
     },
     // 游戏可以开始显示
@@ -391,7 +421,11 @@ var app = {
 
         // 设置弹窗
         $('.js-setting').on('click', function(){
-            
+            $('.js-setting-wrap').removeClass('hide');
+        })
+        // 设置弹窗隐藏
+        $('.setting-wrap-mask').on('click', function(){
+            $('.js-setting-wrap').addClass('hide');
         })
 
         // im输入框显示
@@ -493,7 +527,16 @@ var app = {
 
                 // 登录成功
                 if(jdata.type == 'login' && jdata.s == 1){
-
+                    if(jdata.playerInfos){
+                        // 直接渲染房间人数
+                        for(var n in jdata.playerInfos){
+                            self.showSitDown(jdata.playerInfos[n]);
+                        }
+                    }
+                }
+                // 登录失败
+                if(jdata.type == 'login' && jdata.s == -1){
+                    UTIL.windowToast('登录失败，请重试');
                 }
 
                 // 等待人齐阶段
@@ -501,17 +544,12 @@ var app = {
                     if(jdata.playerInfos){
                         // 直接渲染房间人数
                         for(var n in jdata.playerInfos){
-                            self.showSitDown(jdata.playerInfos[n], 3);
+                            self.showSitDown(jdata.playerInfos[n]);
                         }
                     }else if(jdata.player){
                         // 显示人 加入 or 离开
-                        self.showSitDown(jdata.player, jdata.s);
+                        self.showSitDown(jdata.player);
                     }
-                }
-
-                if(jdata.playerInfos){
-                    // 显示当前用户
-                    self.showPlayInfos(jdata.playerInfos);
                 }
                 
                 if(jdata.tableInfo){

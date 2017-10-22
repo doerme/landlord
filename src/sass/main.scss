@@ -32,6 +32,8 @@ body{
         width: rem(50);
         height: rem(50);
         border-radius: 50%;
+        margin-left: rem(5);
+        margin-right: rem(5);
     }
 }
 
@@ -228,6 +230,14 @@ body{
         margin-left: rem(-280/2);
     }
 }
+
+[data-dpr="3"] div.legoToast{
+    transform: scale(3) translate(-20%,-50%);
+}
+[data-dpr="2"] div.legoToast{
+    transform: scale(2) translate(-25%,-50%);
+}
+
 
 
 // Coding...
