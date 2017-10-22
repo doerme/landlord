@@ -463,6 +463,14 @@ var app = {
         $('.setting-wrap-mask').on('click', function(){
             $('.js-setting-wrap').addClass('hide');
         })
+        // 设定开关
+        $('.js-bt-switch').on('click', function(){
+            if($(this).hasClass('off')){
+                $(this).removeClass('off');
+            }else{
+                $(this).addClass('off');
+            }
+        })
 
         // im输入框显示
         $('.game-wrap-foot-im2').on('click', function(){
@@ -522,6 +530,11 @@ var app = {
             }else{
                 console.log('websocket not exist');
             }
+        });
+
+        // 换台
+        $('.js-switch-desk').on('click', function(){
+            UTIL.windowToast('此功能尚未开放');
         });
     },
     beginWS: function(){
