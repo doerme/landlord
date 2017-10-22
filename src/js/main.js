@@ -159,13 +159,13 @@ var app = {
             cardarr: jdata.threeCards,
             carddata: POCKETARR.pocketArr
         }))
-        jdata.threeCards
         
         if(jdata.tableSt == 1){
             // 叫地主阶段
             self.showCtrlJiaoDiZhu(jdata);
         }else if(jdata.tableSt == 2){
-            
+            // 游戏进行中
+            $('.top-pocket-wrap').removeClass('hide');
             if(jdata.currOpUid){
                 self.showChuPaiView(jdata);
             }else{
@@ -173,7 +173,7 @@ var app = {
                 self.makeUpDiZhu(jdata);
             }
         }else if(jdata.tableSt == 3){
-            // 游戏结束
+            // 游戏结算
         }
 
         // 心跳倒计时
@@ -181,6 +181,24 @@ var app = {
             self.playInterVal = setInterval(function(){
                 self.getWSInterval();
             }, 1000);
+        }
+
+        // 帽子显示
+        $('.hat-mark').removeClass('dizhu farm');
+        if(jdata.lUid == self.curUid){
+            $('.hat-mark.mine').addClass('dizhu');
+            $('.hat-mark.left').addClass('farm');
+            $('.hat-mark.right').addClass('farm');
+        }else{
+            if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('left')){
+                $('.hat-mark.left').addClass('dizhu');
+                $('.hat-mark.mine').addClass('farm');
+                $('.hat-mark.right').addClass('farm');
+            }else if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('right')){
+                $('.hat-mark.right').addClass('dizhu');
+                $('.hat-mark.left').addClass('farm');
+                $('.hat-mark.mine').addClass('farm');
+            }
         }
 
         // 缓存上一次操作时间
@@ -252,7 +270,6 @@ var app = {
     // 确定地主
     makeUpDiZhu: function(jdata){
         var self = this;
-        $('.top-pocket-wrap').removeClass('hide');
         self.showCtrlJiaoDiZhu();
         // 插入地主牌
         if(jdata.lUid == self.curUid){
@@ -573,6 +590,7 @@ var app = {
 
                 // 等待人齐阶段
                 if(jdata.type == 'jt'){
+                    self.getWSInterval();
                     if(jdata.playerInfos){
                         // 直接渲染房间人数
                         for(var n in jdata.playerInfos){
@@ -599,12 +617,18 @@ var app = {
     },
     getWSInterval: function(){
         var self = this;
-        var param = {
-            type: 'test',
-            uid: self.curUid,
-            st: self.hasInterval,
+        console.log('getWSInterval');
+        if(self.curWebSocket){
+            var self = this;
+            var param = {
+                type: 'test',
+                uid: self.curUid,
+                st: self.hasInterval,
+            }
+            self.curWebSocket.send(JSON.stringify(param));
+        }else{
+            console.log('web socket not exist');
         }
-        self.curWebSocket.send(JSON.stringify(param));
         //self.hasInterval = 0;
     },
     initSocket: function(option) {

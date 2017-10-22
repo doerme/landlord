@@ -653,3 +653,43 @@
         background-size: 100% auto;   
     }
 }
+
+.hat-mark{
+    position: absolute;
+    &.dizhu{
+        width: rem(89);
+        height: rem(77);
+        background: url('../img/page/mark-dizhu.png') no-repeat;
+        background-size: 100% auto;
+        &.left{
+            top: rem(120);
+            left: rem(25);
+        }
+        &.right{
+            top: rem(120);
+            right: rem(80);
+        }
+        &.mine{
+            bottom: rem(80);
+            left: rem(14);
+        }
+    }
+    &.farm{
+        width: rem(105);
+        height: rem(79);
+        background: url('../img/page/mark-farm.png') no-repeat;
+        background-size: 100% auto;
+        &.left{
+            top: rem(120);
+            left: rem(25);
+        }
+        &.right{
+            top: rem(120);
+            right: rem(80);
+        }
+        &.mine{
+            bottom: rem(80);
+            left: rem(14);
+        }
+    }
+}
