@@ -540,8 +540,8 @@ var app = {
     beginWS: function(){
         var self = this;
         var option = {
-            // url: 'ws://120.26.207.102:7272',
-            url: 'ws://192.168.1.4:7272',
+            url: 'ws://120.26.207.102:7272',
+            // url: 'ws://192.168.1.4:7272',
             callback: function(jdata){
                 if(typeof(jdata) == 'string'){
                     jdata = JSON.parse(jdata);
