@@ -712,3 +712,64 @@
         }
     }
 }
+
+.talk-ball{
+    position: absolute;
+    padding: rem(20);
+    font-size: rem(24);
+    color: #FFF;
+    background: #4f4644;
+    max-width: rem(200);
+    text-align: justify;
+    &.left{
+        left: rem(150);
+        top: rem(150);
+        &::after{
+            position: absolute;
+            left: rem(-18);
+            bottom: 0;
+            content: '';
+            width: 0;   
+            height: 0;   
+            border-bottom: rem(10) solid transparent;  /* 下边框的高 */  
+            border-top: rem(10) solid transparent; /* 上方边框的高 */  
+            border-right: rem(20) solid #4f4644; /* 右边框的长度|宽度，以及背景色 */  
+            font-size: 0;  
+            line-height: 0; 
+        }
+    }
+    &.right{
+        right: rem(150);
+        top: rem(150);
+        &::after{
+            position: absolute;
+            right: rem(-18);
+            bottom: 0;
+            content: '';
+            width: 0;   
+            height: 0;   
+            border-bottom: rem(10) solid transparent;  /* 下边框的高 */  
+            border-top: rem(10) solid transparent; /* 上方边框的高 */  
+            border-left: rem(20) solid #4f4644; /* 右边框的长度|宽度，以及背景色 */  
+            font-size: 0;  
+            line-height: 0; 
+        }
+    }
+    &.mine{
+        left: rem(150);
+        bottom: rem(100);
+        &::after{
+            position: absolute;
+            left: rem(-18);
+            bottom: 0;
+            content: '';
+            width: 0;   
+            height: 0;   
+            border-bottom: rem(10) solid transparent;  /* 下边框的高 */  
+            border-top: rem(10) solid transparent; /* 上方边框的高 */  
+            border-right: rem(20) solid #4f4644; /* 右边框的长度|宽度，以及背景色 */  
+            font-size: 0;  
+            line-height: 0; 
+        }
+    }
+}
