@@ -147,7 +147,13 @@ export default {
         }
         $('.js-game-playingui .pok').each(function(){
             rsArr.push($(this).attr('pknum'));
-        })
-        return rsArr.sort();
+        });
+        
+        if(removeselected){
+            return rsArr;
+        }else{
+            return rsArr.sort();
+        }
+        
     }
 }

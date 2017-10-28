@@ -10,7 +10,8 @@ var ROOMSTATE = 5; /**5.游戏初始化 1.叫地主阶段 3.游戏中 2.游戏�
 var DFAVATAR = 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=807731740,1529657662&fm=111&gp=0.jpg';
 var PAGETPL = {
     mainpocketwrap: require('./tpl/mainpocketwrap.tpl'),
-    pocketwrap: require('./tpl/pocketwrap.tpl')
+    pocketwrap: require('./tpl/pocketwrap.tpl'),
+    resultuserlist: require('./tpl/resultlistwrap'),
 }
 
 var app = {
@@ -131,6 +132,27 @@ var app = {
             self.showSitDown(jdata[n]);
         }
     },
+    // 显示斗地主
+    showDoudizhu: function(jdata){
+        var self = this;
+        // 帽子显示
+        $('.hat-mark').removeClass('dizhu farm hide');
+        if(jdata.lUid == self.curUid){
+            $('.hat-mark.mine').addClass('dizhu');
+            $('.hat-mark.left').addClass('farm');
+            $('.hat-mark.right').addClass('farm');
+        }else{
+            if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('left')){
+                $('.hat-mark.left').addClass('dizhu');
+                $('.hat-mark.mine').addClass('farm');
+                $('.hat-mark.right').addClass('farm');
+            }else if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('right')){
+                $('.hat-mark.right').addClass('dizhu');
+                $('.hat-mark.left').addClass('farm');
+                $('.hat-mark.mine').addClass('farm');
+            }
+        }
+    },
     // 游戏可以开始显示
     showCanBegin: function(jdata){
         var self = this;
@@ -181,24 +203,6 @@ var app = {
             self.playInterVal = setInterval(function(){
                 self.getWSInterval();
             }, 1000);
-        }
-
-        // 帽子显示
-        $('.hat-mark').removeClass('dizhu farm');
-        if(jdata.lUid == self.curUid){
-            $('.hat-mark.mine').addClass('dizhu');
-            $('.hat-mark.left').addClass('farm');
-            $('.hat-mark.right').addClass('farm');
-        }else{
-            if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('left')){
-                $('.hat-mark.left').addClass('dizhu');
-                $('.hat-mark.mine').addClass('farm');
-                $('.hat-mark.right').addClass('farm');
-            }else if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('right')){
-                $('.hat-mark.right').addClass('dizhu');
-                $('.hat-mark.left').addClass('farm');
-                $('.hat-mark.mine').addClass('farm');
-            }
         }
 
         // 缓存上一次操作时间
@@ -295,7 +299,6 @@ var app = {
         }
 
         if(jdata.lastPlayCardUid == self.curUid){
-
             $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
                 cardarr: UTIL.deskRebuild(true),
                 carddata: POCKETARR.pocketArr
@@ -327,6 +330,40 @@ var app = {
                 $('.texiao-spring').addClass('hide');
             }, 2000);
         }
+    },
+    // 游戏结束
+    showGameEnd: function(jdata){
+        var self = this;
+        if(jdata.winUid){
+            $('.game-result-main').removeClass('pm-win pm-lose dz-win dz-lose');
+            if(jdata.winUid == self.curUid){
+                // 胜利
+                if(jdata.lUid == self.curUid){
+                    //地主胜利
+                    $('.game-result-main').addClass('dz-win');
+                }else{
+                    //平民胜利
+                    $('.game-result-main').addClass('pm-win');
+                }
+            }else{
+                // 失败
+                if(jdata.lUid == self.curUid){
+                    //地主失败
+                    $('.game-result-main').addClass('pm-lose');
+                }else{
+                    //平民失败
+                    $('.game-result-main').addClass('pm-lose');
+                }
+            }
+            // 倍数显示
+            if(jdata.multiple){
+                $('.js-multiple-show').html(`本盘总倍数：${jdata.multiple}倍`);
+            }
+            $('.js-game-result-wrap').removeClass('hide');
+        }
+        $('.js-result-main').html(PAGETPL.resultuserlist({
+            data: playerInfos
+        }));
     },
     // 出牌轮换
     showChuPai: function(jdata){
@@ -540,8 +577,8 @@ var app = {
     beginWS: function(){
         var self = this;
         var option = {
-            url: 'ws://120.26.207.102:7272',
-            // url: 'ws://192.168.1.4:7272',
+            //url: 'ws://120.26.207.102:7272',
+            url: 'ws://192.168.1.250:7272',
             callback: function(jdata){
                 if(typeof(jdata) == 'string'){
                     jdata = JSON.parse(jdata);
@@ -578,12 +615,21 @@ var app = {
                         // 确定地主
                         self.makeUpDiZhu(jdata);
                     }
+
+                    // 地主带帽
+                    if(jdata.lUid){
+                        self.showDoudizhu(jdata);
+                    }
                 }
                 if(jdata.type == 'play'){
                     if(jdata.s == 7){
                         UTIL.windowToast('非法出牌');
                     }else if(jdata.s == 1){
                         self.showChuPaiView(jdata);
+                    }
+                    // 游戏结束
+                    if(jdata.winUid){
+                        self.showGameEnd(jdata);
                     }
                 }
 
@@ -614,6 +660,8 @@ var app = {
                         self.showSitDown(jdata.player);
                     }
                 }
+
+                
                 
                 if(jdata.tableInfo){
                     // 显示牌局
