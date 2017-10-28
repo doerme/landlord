@@ -51,7 +51,8 @@ var app = {
             }else if(jdata.status == 1 || jdata.status == 2 || jdata.status == 3){
             // 自己坐下
                 $('.game-wrap-foot-avatar').attr({
-                    src: jdata.avatar
+                    src: jdata.avatar,
+                    uid: jdata.uid
                 });
                 $('.game-wrap-foot-gold').html(jdata.score);
                 $(`.top-user-wrap > img[uid="${jdata.uid}"]`).remove();
@@ -79,7 +80,8 @@ var app = {
                         uid: jdata.uid
                     });
                     $('.sit-down-bt.one').attr({
-                        src: jdata.avatar
+                        src: jdata.avatar,
+                        uid: jdata.uid
                     }).removeClass('hide');
                     //name score
                     $('.user-info-wrap.left').find('.name').html(jdata.name);
@@ -105,7 +107,8 @@ var app = {
                         uid: jdata.uid
                     });
                     $('.sit-down-bt.two').attr({
-                        src: jdata.avatar
+                        src: jdata.avatar,
+                        uid: jdata.uid
                     }).removeClass('hide');
                     //name score
                     $('.user-info-wrap.right').find('.name').html(jdata.name);
@@ -299,7 +302,7 @@ var app = {
         }
 
         // 减牌
-        if(jdata.lastCardNos && jdata.lastPlayCardUid == self.curluid && jdata.lastOpUid == self.curUid){
+        if(jdata.lastCardNos && jdata.lastOpUid == self.curUid){
             for(var n in jdata.lastCardNos){
                 $(`.js-game-playingui .pok[pknum="${jdata.lastCardNos[n]}"]`).remove();
             }
@@ -320,6 +323,19 @@ var app = {
         self.showChuPai({
             uid: jdata.currOpUid
         });
+
+        // 展示托管
+        if(jdata.depositUid){
+            $(`.js-player-avatar[uid="${jdata.depositUid}"]`).parent('.avatar-wrap').addClass('tuoguan');
+            if(jdata.depositUid == self.curUid){
+                $('.js-quxiaotuoguan').removeClass('hide');
+            }
+        }
+
+        // 解除托管
+        if(jdata.lastPlayCardUid){
+            $(`.js-player-avatar[uid="${jdata.lastPlayCardUid}"]`).parent('.avatar-wrap').removeClass('tuoguan');
+        }
 
         // 特效展示
         if(jdata.isBomb){
@@ -425,6 +441,21 @@ var app = {
                 console.log('websocket not exist');
             }
         });
+
+        // 取消托管
+        $('.js-quxiaotuoguan').on('click', function(){
+            if(self.curWebSocket){
+                var param = {
+                    type: 'chgSt',
+                    uid: self.curUid,
+                    op: '0',
+                }
+                self.curWebSocket.send(JSON.stringify(param));
+            }else{
+                console.log('websocket not exist');
+            }
+            $('.js-quxiaotuoguan').addClass('hide');
+        })
 
         // 结束继续
         $('.js-rs-bt1').on('click', function(){

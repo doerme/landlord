@@ -203,19 +203,11 @@ body{
         text-shadow: 0 rem(2) #7a5f2f, rem(2) 0 #7a5f2f, rem(-2) 0 #7a5f2f, 0 rem(-2) #7a5f2f;
     }
     .sit-down-bt{
-        position: absolute;
-        width: rem(131);
-        height: rem(131);
-        border-radius: 50%;
-        &.one{
-            top: rem(145);
-            left: rem(30);
-        }
-        &.two{
-            top: rem(145);
-            right: rem(30);
-        }
         &.three{
+            position: absolute;
+            width: rem(131);
+            height: rem(131);
+            border-radius: 50%;
             bottom: rem(130);
             left: 50%;
             margin-left: rem(-131/2);
