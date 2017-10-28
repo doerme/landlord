@@ -320,22 +320,26 @@ var app = {
             }
         }
 
-        self.showChuPai({
-            uid: jdata.currOpUid
-        });
-
-        // 展示托管
-        if(jdata.depositUid){
-            $(`.js-player-avatar[uid="${jdata.depositUid}"]`).parent('.avatar-wrap').addClass('tuoguan');
-            if(jdata.depositUid == self.curUid){
-                $('.js-quxiaotuoguan').removeClass('hide');
+        // 显示解除托管
+        if(jdata.playerInfos){
+            for(var n in jdata.playerInfos){
+                if(jdata.playerInfos[n].status == 3){
+                    $(`.js-player-avatar[uid="${jdata.playerInfos[n].uid}"]`).parent('.avatar-wrap').addClass('tuoguan');
+                    if(jdata.playerInfos[n].uid == self.curUid){
+                        $('.js-quxiaotuoguan').removeClass('hide');
+                    }
+                }else if(jdata.playerInfos[n].status == 2){
+                    $(`.js-player-avatar[uid="${jdata.playerInfos[n].uid}"]`).parent('.avatar-wrap').removeClass('tuoguan');
+                    if(jdata.playerInfos[n].uid == self.curUid){
+                        $('.js-quxiaotuoguan').addClass('hide');
+                    }
+                }
             }
         }
 
-        // 解除托管
-        if(jdata.lastPlayCardUid){
-            $(`.js-player-avatar[uid="${jdata.lastPlayCardUid}"]`).parent('.avatar-wrap').removeClass('tuoguan');
-        }
+        self.showChuPai({
+            uid: jdata.currOpUid
+        });
 
         // 特效展示
         if(jdata.isBomb){
@@ -386,6 +390,11 @@ var app = {
         $('.js-result-user-list').html(PAGETPL.resultuserlist({
             data: jdata.playerInfos
         }));
+
+        // 取消托管ui
+        $('.js-quxiaotuoguan').addClass('hide');
+        $('.js-player-avatar').parent('.avatar-wrap').removeClass('tuoguan');
+
     },
     // 出牌轮换
     showChuPai: function(jdata){
@@ -407,24 +416,32 @@ var app = {
         $('.js-game-playingui').addClass('hide');
         $('.js-game-waittingui').removeClass('hide');
         $('.js-game-result-wrap').addClass('hide');
+        $('.user-timeout-clock').addClass('hide');
+        $('.top-pocket-wrap').addClass('hide');
+        self.gameLogin();
     },
     // 起身
     gameStandUp: function(){
         var self = this;
-        if(self.curWebSocket){
-            var param = {
-                type: 'jt',
-                uid: self.curUid,
-                op: '0'
-            }
-            self.curWebSocket.send(JSON.stringify(param));
-        }else{
-            console.log('websocket not exist');
-        }
         $('.game-wrap-foot-avatar').attr({
             src: './img/page/head_eg.png'
         })
         self.gameEndReset();
+    },
+    // 游戏登录
+    gameLogin: function(){
+        var self = this;
+        var param = {
+            type: 'login',
+            uid: self.curUid,
+            tid: self.curRoomId, /**  房间id*/
+            score: 200,
+            uids: [1001,1002,1003],
+            isReConn: 1, // 1重连 0第一次连 
+            name: self.curUid,
+            avatar: DFAVATAR,
+        }
+        self.curWebSocket.send(JSON.stringify(param));
     },
     bindEven: function(){
         var self = this;
@@ -725,8 +742,6 @@ var app = {
                     }
                 }
 
-                
-                
                 if(jdata.tableInfo){
                     // 显示牌局
                     self.showCanBegin(jdata.tableInfo);
@@ -790,17 +805,7 @@ var app = {
         //连接成功建立的回调方法
         self.curWebSocket.onopen = function (event) {
             console.log("onopen");
-            var param = {
-                type: 'login',
-                uid: self.curUid,
-                tid: self.curRoomId, /**  房间id*/
-                score: 200,
-                uids: [1001,1002,1003],
-                isReConn: 1, // 1重连 0第一次连 
-                name: self.curUid,
-                avatar: DFAVATAR,
-            }
-            self.curWebSocket.send(JSON.stringify(param));
+            self.gameLogin();
         }
     
         //接收到消息的回调方法

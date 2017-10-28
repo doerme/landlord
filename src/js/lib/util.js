@@ -143,7 +143,7 @@ export default {
     deskRebuild: function(){
         var rsArr = [];
         $('.js-game-playingui .pok').each(function(){
-            rsArr.push($(this).attr('pknum') * 1);
+            rsArr.push($(this).attr('pknum'));
         });
         return rsArr.sort((a, b)=> b-a);
         
