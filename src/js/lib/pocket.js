@@ -72,7 +72,7 @@ export default {
         152: `${baseUri}m2.${baseType}`,
         153: `${baseUri}t2.${baseType}`,
         154: `${baseUri}h2.${baseType}`,
-        161: `${baseUri}king.${baseType}`,
-        171: `${baseUri}king2.${baseType}`,
+        161: `${baseUri}king2.${baseType}`,
+        171: `${baseUri}king.${baseType}`,
     }
 }

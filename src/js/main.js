@@ -4,6 +4,7 @@ $('.loading-wrap-font').html(`${window.location.href.match(/uid=(\d+)/) ? window
 setTimeout(function() {
     $('.js-loading-line').addClass('full');
 }, 100);
+window.localStorage.setItem('localrtime', null);
 
 /** 房间状态 */
 var ROOMSTATE = 5; /**5.游戏初始化 1.叫地主阶段 3.游戏中 2.游戏结算 */
@@ -125,6 +126,18 @@ var app = {
                 }
             }else{
                 console.log('not uid match', jdata.uid);
+            }
+        }
+        // 显示解除托管
+        if(jdata.status == 3){
+            $(`.js-player-avatar[uid="${jdata.uid}"]`).parent('.avatar-wrap').addClass('tuoguan');
+            if(jdata.uid == self.curUid){
+                $('.js-quxiaotuoguan').removeClass('hide');
+            }
+        }else if(jdata.status == 2){
+            $(`.js-player-avatar[uid="${jdata.uid}"]`).parent('.avatar-wrap').removeClass('tuoguan');
+            if(jdata.uid == self.curUid){
+                $('.js-quxiaotuoguan').addClass('hide');
             }
         }
     },
@@ -293,8 +306,7 @@ var app = {
     // 出牌展示
     showChuPaiView: function(jdata){
         var self = this;
-        console.log('showChuPaiView', jdata);
-        if(jdata.lastCardNos){
+        if(jdata.lastCardNos && jdata.lastCardNos.length > 0){
             $('.js-chupaiqu-wrap').html(PAGETPL.pocketwrap({
                 cardarr: jdata.lastCardNos,
                 carddata: POCKETARR.pocketArr
@@ -304,7 +316,7 @@ var app = {
         // 减牌
         if(jdata.lastCardNos && jdata.lastOpUid == self.curUid){
             for(var n in jdata.lastCardNos){
-                $(`.js-game-playingui .pok[pknum="${jdata.lastCardNos[n]}"]`).remove();
+                $(`.main-pocket-wrap .pok[pknum="${jdata.lastCardNos[n]}"]`).remove();
             }
             $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
                 cardarr: UTIL.deskRebuild(),
@@ -320,22 +332,7 @@ var app = {
             }
         }
 
-        // 显示解除托管
-        if(jdata.playerInfos){
-            for(var n in jdata.playerInfos){
-                if(jdata.playerInfos[n].status == 3){
-                    $(`.js-player-avatar[uid="${jdata.playerInfos[n].uid}"]`).parent('.avatar-wrap').addClass('tuoguan');
-                    if(jdata.playerInfos[n].uid == self.curUid){
-                        $('.js-quxiaotuoguan').removeClass('hide');
-                    }
-                }else if(jdata.playerInfos[n].status == 2){
-                    $(`.js-player-avatar[uid="${jdata.playerInfos[n].uid}"]`).parent('.avatar-wrap').removeClass('tuoguan');
-                    if(jdata.playerInfos[n].uid == self.curUid){
-                        $('.js-quxiaotuoguan').addClass('hide');
-                    }
-                }
-            }
-        }
+        
 
         self.showChuPai({
             uid: jdata.currOpUid
@@ -392,6 +389,7 @@ var app = {
         }));
 
         // 取消托管ui
+        $('.js-chupaiqu-wrap').html('');
         $('.js-quxiaotuoguan').addClass('hide');
         $('.js-player-avatar').parent('.avatar-wrap').removeClass('tuoguan');
 
@@ -472,6 +470,7 @@ var app = {
                 console.log('websocket not exist');
             }
             $('.js-quxiaotuoguan').addClass('hide');
+            $('.avatar-wrap.tuoguan').removeClass('tuoguan');
         })
 
         // 结束继续
@@ -711,6 +710,12 @@ var app = {
                     // 游戏结束
                     if(jdata.winUid){
                         self.showGameEnd(jdata);
+                    }
+                    if(jdata.playerInfos){
+                        // 直接渲染房间人数
+                        for(var n in jdata.playerInfos){
+                            self.showSitDown(jdata.playerInfos[n]);
+                        }
                     }
                 }
 
