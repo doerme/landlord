@@ -146,6 +146,16 @@ export default {
             rsArr.push($(this).attr('pknum'));
         });
         return rsArr.sort((a, b)=> b-a);
-        
+    },
+    getOPUser: function(curuid, opuid){
+        if(curuid == opuid){
+            return 'mine';
+        }else{
+            if($(`.user-info-wrap[uid="${opuid}"]`).hasClass('left')){
+                return 'left';
+            }else if($(`.user-info-wrap[uid="${opuid}"]`).hasClass('right')){
+                return 'right';
+            }
+        }
     }
 }

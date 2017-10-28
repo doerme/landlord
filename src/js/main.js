@@ -153,17 +153,19 @@ var app = {
     showDoudizhu: function(jdata){
         var self = this;
         // 帽子显示
+
         $('.hat-mark').removeClass('dizhu farm hide');
-        if(jdata.lUid == self.curUid){
+        var ctrUser = UTIL.getOPUser(self.curUid, jdata.lUid);
+        if(ctrUser == 'mine'){
             $('.hat-mark.mine').addClass('dizhu');
             $('.hat-mark.left').addClass('farm');
             $('.hat-mark.right').addClass('farm');
         }else{
-            if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('left')){
+            if(ctrUser == 'left'){
                 $('.hat-mark.left').addClass('dizhu');
                 $('.hat-mark.mine').addClass('farm');
                 $('.hat-mark.right').addClass('farm');
-            }else if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('right')){
+            }else if(ctrUser == 'right'){
                 $('.hat-mark.right').addClass('dizhu');
                 $('.hat-mark.left').addClass('farm');
                 $('.hat-mark.mine').addClass('farm');
@@ -187,9 +189,10 @@ var app = {
         }));
         // 对方牌区
         for(var n in jdata.cardNums){
-            if($(`.user-info-wrap[uid="${n}"]`).hasClass('left')){
+            var ctrUser = UTIL.getOPUser(self.curUid, n);
+            if(ctrUser == 'left'){
                 $('.pocket-num.left').html(jdata.cardNums[n]).removeClass('hide');
-            }else if($(`.user-info-wrap[uid="${n}"]`).hasClass('right')){
+            }else if(ctrUser == 'right'){
                 $('.pocket-num.right').html(jdata.cardNums[n]).removeClass('hide');
             }
         }
@@ -240,12 +243,13 @@ var app = {
             self.showGameBt();
         }
         $('.jiaodizhu-tips').addClass('hide');
-        if(jdata && jdata.lUid == self.curUid){
+        var ctrUser = UTIL.getOPUser(self.curUid, jdata.lUid);
+        if(ctrUser == 'mine'){
             $('.jiaodizhu-tips.mine').removeClass('hide');
         }else if(jdata){
-            if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('left')){
+            if(ctrUser == 'left'){
                 $('.jiaodizhu-tips.left').removeClass('hide');
-            }else if($(`.user-info-wrap[uid="${jdata.lUid}"]`).hasClass('right')){
+            }else if(ctrUser == 'right'){
                 $('.jiaodizhu-tips.right').removeClass('hide');
             }
         }
@@ -256,20 +260,22 @@ var app = {
         if(!opuid){
             return;
         }
-        console.log('showTimeoutClock', opuid, self.curUid);
         $('.timeout-clock').addClass('hide');
         $('.user-timeout-clock').addClass('hide');
-        if(opuid == self.curUid){
+        var ctrUser = UTIL.getOPUser(self.curUid, opuid);
+        if(ctrUser == 'mine'){
             $('.timeout-clock').removeClass('hide');
         }else{
-            if($(`.user-info-wrap[uid="${opuid}"]`).hasClass('left')){
+            if(ctrUser == 'left'){
                 $('.user-timeout-clock.left').removeClass('hide');
-            }else if($(`.user-info-wrap[uid="${opuid}"]`).hasClass('right')){
+            }else if(ctrUser == 'right'){
                 $('.user-timeout-clock.right').removeClass('hide');
             }
         }
         self.timeoutIntervalVal = timeoutval;
         clearInterval(self.timeoutInterval);
+        $('.timeout-clock').html(self.timeoutIntervalVal);
+        $('.user-timeout-clock').html(self.timeoutIntervalVal);
         self.timeoutInterval = setInterval(function(){
             if(self.timeoutIntervalVal > 0){
                 self.timeoutIntervalVal--;
@@ -306,10 +312,12 @@ var app = {
     // 出牌展示
     showChuPaiView: function(jdata){
         var self = this;
+        var ctrUser = UTIL.getOPUser(self.curUid,jdata.lastOpUid);
         if(jdata.lastCardNos && jdata.lastCardNos.length > 0){
             $('.js-chupaiqu-wrap').html(PAGETPL.pocketwrap({
                 cardarr: jdata.lastCardNos,
-                carddata: POCKETARR.pocketArr
+                carddata: POCKETARR.pocketArr,
+                fromuser: ctrUser
             })).removeClass('hide');
         }
 
@@ -325,14 +333,12 @@ var app = {
         }
 
         if(jdata.lastOpCardNum){
-            if($(`.user-info-wrap[uid="${jdata.lastOpUid}"]`).hasClass('left')){
+            if(ctrUser == 'left'){
                 $('.pocket-num.left').html(jdata.lastOpCardNum).removeClass('hide');
-            }else if($(`.user-info-wrap[uid="${jdata.lastOpUid}"]`).hasClass('right')){
+            }else if(ctrUser == 'right'){
                 $('.pocket-num.right').html(jdata.lastOpCardNum).removeClass('hide');
             }
         }
-
-        
 
         self.showChuPai({
             uid: jdata.currOpUid
