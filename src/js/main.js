@@ -21,6 +21,7 @@ var app = {
     timeoutIntervalVal: 0, // 倒计时显示器显示值
     timeoutIntervalBeginVal: 0, // 倒计时开始值
     curWebSocket: null,
+    curluid: null, // 当前房主ID
     curUid: window.location.href.match(/uid=(\d+)/) ? window.location.href.match(/uid=(\d+)/)[1] : '1001',
     curRoomId: window.location.href.match(/roomid=(\d+)/) ? window.location.href.match(/roomid=(\d+)/)[1] : '1001',
     init: function(){
@@ -279,11 +280,10 @@ var app = {
         if(jdata.lUid == self.curUid){
             $('.main-pocket-wrap-bottom').append($('.top-pocket-wrap').html());
             $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
-                cardarr: UTIL.deskRebuild(false),
+                cardarr: UTIL.deskRebuild(),
                 carddata: POCKETARR.pocketArr
             }))
         }
-
         self.showChuPaiCtrl(jdata.lUid);
         self.showTimeoutClock(jdata ? jdata.lUid : '', self.timeoutIntervalBeginVal);
     },
@@ -298,9 +298,13 @@ var app = {
             })).removeClass('hide');
         }
 
-        if(jdata.lastPlayCardUid == self.curUid){
+        // 减牌
+        if(jdata.lastCardNos && jdata.lastPlayCardUid == self.curluid && jdata.lastOpUid == self.curUid){
+            for(var n in jdata.lastCardNos){
+                $(`.js-game-playingui .pok[pknum="${jdata.lastCardNos[n]}"]`).remove();
+            }
             $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
-                cardarr: UTIL.deskRebuild(true),
+                cardarr: UTIL.deskRebuild(),
                 carddata: POCKETARR.pocketArr
             }))
         }
@@ -338,7 +342,7 @@ var app = {
             $('.game-result-main').removeClass('pm-win pm-lose dz-win dz-lose');
             if(jdata.winUid == self.curUid){
                 // 胜利
-                if(jdata.lUid == self.curUid){
+                if(self.curluid == self.curUid){
                     //地主胜利
                     $('.game-result-main').addClass('dz-win');
                 }else{
@@ -347,7 +351,7 @@ var app = {
                 }
             }else{
                 // 失败
-                if(jdata.lUid == self.curUid){
+                if(self.curluid == self.curUid){
                     //地主失败
                     $('.game-result-main').addClass('pm-lose');
                 }else{
@@ -359,10 +363,12 @@ var app = {
             if(jdata.multiple){
                 $('.js-multiple-show').html(`本盘总倍数：${jdata.multiple}倍`);
             }
-            $('.js-game-result-wrap').removeClass('hide');
+            setTimeout(()=>{
+                $('.js-game-result-wrap').removeClass('hide');
+            }, 4000);
         }
-        $('.js-result-main').html(PAGETPL.resultuserlist({
-            data: playerInfos
+        $('.js-result-user-list').html(PAGETPL.resultuserlist({
+            data: jdata.playerInfos
         }));
     },
     // 出牌轮换
@@ -378,6 +384,31 @@ var app = {
         if(playuid == self.curUid){
             $('.bt-chupai,.bt-buchu').removeClass('hide');
         }
+    },
+    // 游戏界面重置
+    gameEndReset: function(){
+        var self = this;
+        $('.js-game-playingui').addClass('hide');
+        $('.js-game-waittingui').removeClass('hide');
+        $('.js-game-result-wrap').addClass('hide');
+    },
+    // 起身
+    gameStandUp: function(){
+        var self = this;
+        if(self.curWebSocket){
+            var param = {
+                type: 'jt',
+                uid: self.curUid,
+                op: '0'
+            }
+            self.curWebSocket.send(JSON.stringify(param));
+        }else{
+            console.log('websocket not exist');
+        }
+        $('.game-wrap-foot-avatar').attr({
+            src: './img/page/head_eg.png'
+        })
+        self.gameEndReset();
     },
     bindEven: function(){
         var self = this;
@@ -395,19 +426,20 @@ var app = {
             }
         });
 
+        // 结束继续
+        $('.js-rs-bt1').on('click', function(){
+            self.gameEndReset();
+        })
+
+        // 结束站起
+        $('.js-rs-bt2').on('click', function(){
+            self.gameStandUp();
+        })
+
         // 离开 站起来
         $('.js-quit-desk,.js-stand-desk').on('click', function(){
-            if(self.curWebSocket){
-                var param = {
-                    type: 'jt',
-                    uid: self.curUid,
-                    op: '0'
-                }
-                self.curWebSocket.send(JSON.stringify(param));
-            }else{
-                console.log('websocket not exist');
-            }
-        })
+            self.gameStandUp();
+        });
 
         // 叫地主
         $('.bt-jiaodizhu').on('click', function(){
@@ -618,6 +650,7 @@ var app = {
 
                     // 地主带帽
                     if(jdata.lUid){
+                        self.curluid = jdata.lUid;
                         self.showDoudizhu(jdata);
                     }
                 }

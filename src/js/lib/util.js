@@ -140,20 +140,12 @@ export default {
         })
         return rsArr;
     },
-    deskRebuild: function(removeselected){
+    deskRebuild: function(){
         var rsArr = [];
-        if(removeselected){
-            $('.js-game-playingui .selected').remove();
-        }
         $('.js-game-playingui .pok').each(function(){
-            rsArr.push($(this).attr('pknum'));
+            rsArr.push($(this).attr('pknum') * 1);
         });
-        
-        if(removeselected){
-            return rsArr;
-        }else{
-            return rsArr.sort();
-        }
+        return rsArr.sort((a, b)=> b-a);
         
     }
 }

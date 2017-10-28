@@ -15,19 +15,23 @@
 .chupaiqu-wrap{
     position: absolute;
     top: rem(370);
-    left: rem(-40);
+    left: rem(0);
     width: 100%;
     height: rem(190);
     text-align: center;
+    overflow-y: auto;
+    -webkit-overflow-scrolling:touch;
+    white-space: nowrap;
     .pok{
         display: inline-block;
         // position: absolute;
         width: rem(130);
         height: rem(190);
+
         @for $i from 2 through 18 {
             &:nth-child(#{$i}){
                 //left: #{$i*60/75}rem;
-                margin-left: rem(-60);
+                margin-left: rem(-80);
             }
         }
     }
