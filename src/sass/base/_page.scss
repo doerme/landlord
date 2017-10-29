@@ -519,6 +519,24 @@
                         }
                     }
                 }
+                .im-log-wrap{
+                    position: relative;
+                    width: 100%;
+                    color: #dbd3c9;
+                    li{
+                        height: rem(70);
+                        line-height: rem(70);
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        text-indent: rem(10);
+                    }
+                    .e-unit{
+                        display: inline-block;
+                        width: rem(60);
+                        height: rem(60);
+                    }
+                }
             }
         }
     }

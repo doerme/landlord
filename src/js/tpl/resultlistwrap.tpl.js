@@ -1,2 +1,2 @@
-/*TMODJS:{"version":3,"md5":"07913649ea3925db0cb12a6fcf99afde"}*/
+/*TMODJS:{"version":4,"md5":"07913649ea3925db0cb12a6fcf99afde"}*/
 template("/Users/xiaominghari/Documents/wanrenqun/newsvn/web/landlord/landlord/src/js/tpl/resultlistwrap",function(a){"use strict";var b=this,c=(b.$helpers,b.$each),d=a.data,e=(a.v,a.i,b.$escape),f="";return c(d,function(a){f+=' <li> <img class="ul-avatar" src="',f+=e(a.avatar),f+='" /> <div class="ul-name">',f+=e(a.name),f+='</div> <div class="ul-gold">',f+=e(a.score),f+="</div> </li> "}),new String(f)});
