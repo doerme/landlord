@@ -19,7 +19,7 @@
     width: 100%;
     height: rem(190);
     text-align: center;
-    overflow-y: auto;
+    overflow-x: auto;
     -webkit-overflow-scrolling:touch;
     white-space: nowrap;
     .pok{
@@ -784,6 +784,9 @@
     background: #4f4644;
     max-width: rem(200);
     text-align: justify;
+    img{
+        width: rem(60);
+    }
     &.left{
         left: rem(150);
         top: rem(150);

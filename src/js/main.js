@@ -4,7 +4,7 @@ $('.loading-wrap-font').html(`${window.location.href.match(/uid=(\d+)/) ? window
 setTimeout(function() {
     $('.js-loading-line').addClass('full');
 }, 100);
-window.localStorage.setItem('localrtime', null);
+//window.localStorage.setItem('localrtime', null);
 
 /** 房间状态 */
 var ROOMSTATE = 5; /**5.游戏初始化 1.叫地主阶段 3.游戏中 2.游戏结算 */
@@ -13,6 +13,7 @@ var PAGETPL = {
     mainpocketwrap: require('./tpl/mainpocketwrap.tpl'),
     pocketwrap: require('./tpl/pocketwrap.tpl'),
     resultuserlist: require('./tpl/resultlistwrap'),
+    chatmsgline: require('./tpl/chatmsgline'),
 }
 
 var app = {
@@ -21,6 +22,11 @@ var app = {
     timeoutInterval: null, // 倒计时显示定时器
     timeoutIntervalVal: 0, // 倒计时显示器显示值
     timeoutIntervalBeginVal: 0, // 倒计时开始值
+    talkBallTimeout: {
+        left: null,
+        right: null,
+        mine: null,
+    },
     curWebSocket: null,
     curluid: null, // 当前房主ID
     curUid: window.location.href.match(/uid=(\d+)/) ? window.location.href.match(/uid=(\d+)/)[1] : '1001',
@@ -83,7 +89,7 @@ var app = {
                     $('.sit-down-bt.one').attr({
                         src: jdata.avatar,
                         uid: jdata.uid
-                    }).removeClass('hide');
+                    }).removeClass('hide').parent('.js-game-playingui').removeClass('hide');
                     //name score
                     $('.user-info-wrap.left').find('.name').html(jdata.name);
                     $('.user-info-wrap.left').find('.score').html(jdata.score);
@@ -110,7 +116,7 @@ var app = {
                     $('.sit-down-bt.two').attr({
                         src: jdata.avatar,
                         uid: jdata.uid
-                    }).removeClass('hide');
+                    }).removeClass('hide').parent('.js-game-playingui').removeClass('hide');;
                     //name score
                     $('.user-info-wrap.right').find('.name').html(jdata.name);
                     $('.user-info-wrap.right').find('.score').html(jdata.score);
@@ -197,17 +203,18 @@ var app = {
             }
         }
         // 地主牌堆
-        $('.top-pocket-wrap').html(PAGETPL.pocketwrap({
-            cardarr: jdata.threeCards,
-            carddata: POCKETARR.pocketArr
-        }))
-        
+        if(jdata.threeCards){
+            $('.top-pocket-wrap').html(PAGETPL.pocketwrap({
+                cardarr: jdata.threeCards,
+                carddata: POCKETARR.pocketArr
+            }))
+            $('.top-pocket-wrap').removeClass('hide');
+        }
         if(jdata.tableSt == 1){
             // 叫地主阶段
             self.showCtrlJiaoDiZhu(jdata);
         }else if(jdata.tableSt == 2){
             // 游戏进行中
-            $('.top-pocket-wrap').removeClass('hide');
             if(jdata.currOpUid){
                 self.showChuPaiView(jdata);
             }else{
@@ -243,14 +250,16 @@ var app = {
             self.showGameBt();
         }
         $('.jiaodizhu-tips').addClass('hide');
-        var ctrUser = UTIL.getOPUser(self.curUid, jdata.lUid);
-        if(ctrUser == 'mine'){
-            $('.jiaodizhu-tips.mine').removeClass('hide');
-        }else if(jdata){
-            if(ctrUser == 'left'){
-                $('.jiaodizhu-tips.left').removeClass('hide');
-            }else if(ctrUser == 'right'){
-                $('.jiaodizhu-tips.right').removeClass('hide');
+        if(jdata.lUid){
+            var ctrUser = UTIL.getOPUser(self.curUid, jdata.lUid);
+            if(ctrUser == 'mine'){
+                $('.jiaodizhu-tips.mine').removeClass('hide');
+            }else if(jdata){
+                if(ctrUser == 'left'){
+                    $('.jiaodizhu-tips.left').removeClass('hide');
+                }else if(ctrUser == 'right'){
+                    $('.jiaodizhu-tips.right').removeClass('hide');
+                }
             }
         }
     },
@@ -297,39 +306,43 @@ var app = {
     // 确定地主
     makeUpDiZhu: function(jdata){
         var self = this;
-        self.showCtrlJiaoDiZhu();
+        self.showCtrlJiaoDiZhu(jdata);
         // 插入地主牌
-        if(jdata.lUid == self.curUid){
-            $('.main-pocket-wrap-bottom').append($('.top-pocket-wrap').html());
-            $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
-                cardarr: UTIL.deskRebuild(),
-                carddata: POCKETARR.pocketArr
-            }))
-        }
+        // if(jdata.lUid == self.curUid){
+        //     $('.main-pocket-wrap-bottom').append($('.top-pocket-wrap').html());
+        //     $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
+        //         cardarr: UTIL.deskRebuild(),
+        //         carddata: POCKETARR.pocketArr
+        //     }))
+        // }
         self.showChuPaiCtrl(jdata.lUid);
         self.showTimeoutClock(jdata ? jdata.lUid : '', self.timeoutIntervalBeginVal);
+        $('.jiaodizhu-tips').addClass('hide');
     },
     // 出牌展示
     showChuPaiView: function(jdata){
         var self = this;
         var ctrUser = UTIL.getOPUser(self.curUid,jdata.lastOpUid);
-        if(jdata.lastCardNos && jdata.lastCardNos.length > 0){
-            $('.js-chupaiqu-wrap').html(PAGETPL.pocketwrap({
-                cardarr: jdata.lastCardNos,
-                carddata: POCKETARR.pocketArr,
-                fromuser: ctrUser
-            })).removeClass('hide');
-        }
-
-        // 减牌
-        if(jdata.lastCardNos && jdata.lastOpUid == self.curUid){
-            for(var n in jdata.lastCardNos){
-                $(`.main-pocket-wrap .pok[pknum="${jdata.lastCardNos[n]}"]`).remove();
+        console.log('showChuPaiView', jdata.lastCardNos, UTIL.deskHadbuild(), UTIL.isArrSame(jdata.lastCardNos, UTIL.deskHadbuild()));
+        if(!UTIL.isArrSame(jdata.lastCardNos, UTIL.deskHadbuild())){
+            if(jdata.lastCardNos && jdata.lastCardNos.length > 0){
+                $('.js-chupaiqu-wrap').html(PAGETPL.pocketwrap({
+                    cardarr: jdata.lastCardNos,
+                    carddata: POCKETARR.pocketArr,
+                    fromuser: ctrUser
+                })).removeClass('hide');
             }
-            $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
-                cardarr: UTIL.deskRebuild(),
-                carddata: POCKETARR.pocketArr
-            }))
+
+            // 减牌
+            if(jdata.lastCardNos && jdata.lastOpUid == self.curUid){
+                for(var n in jdata.lastCardNos){
+                    $(`.main-pocket-wrap .pok[pknum="${jdata.lastCardNos[n]}"]`).remove();
+                }
+                $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
+                    cardarr: UTIL.deskRebuild(),
+                    carddata: POCKETARR.pocketArr
+                }))
+            }
         }
 
         if(jdata.lastOpCardNum){
@@ -362,6 +375,9 @@ var app = {
     showGameEnd: function(jdata){
         var self = this;
         if(jdata.winUid){
+            if(self.playInterVal){
+                clearInterval(self.playInterVal);
+            }
             $('.game-result-main').removeClass('pm-win pm-lose dz-win dz-lose');
             if(jdata.winUid == self.curUid){
                 // 胜利
@@ -388,7 +404,7 @@ var app = {
             }
             setTimeout(()=>{
                 $('.js-game-result-wrap').removeClass('hide');
-            }, 4000);
+            }, 1000);
         }
         $('.js-result-user-list').html(PAGETPL.resultuserlist({
             data: jdata.playerInfos
@@ -446,6 +462,43 @@ var app = {
             avatar: DFAVATAR,
         }
         self.curWebSocket.send(JSON.stringify(param));
+    },
+    // 显示聊天记录
+    showChatMsg: function(jdata) {
+        var self = this;
+        $('.js-im-log').prepend(PAGETPL.chatmsgline({
+            data: jdata
+        }))
+        // 如果已经坐下
+        var ctrUser = UTIL.getOPUser(self.curUid, jdata.uid);
+        self.showChatBall(ctrUser, jdata.msg, jdata.ct);
+    },
+    // 显示聊天气泡
+    showChatBall: function(pos, msg, type){
+        var self = this;
+        console.log('showChatBall',pos, msg, type);
+        if(type == 2){
+            msg = `<img class="e-unit" src="../img/page/face/${msg*1+1}.png" />`
+        }
+        if(pos == 'mine'){
+            $('.talk-ball.mine').removeClass('hide').html(msg);
+            clearTimeout(self.talkBallTimeout.mine);
+            self.talkBallTimeout.mine = setTimeout(()=>{
+                $(`.talk-ball.${pos}`).addClass('hide');
+            }, 2000);
+        }else if(pos == 'left'){
+            $('.talk-ball.left').removeClass('hide').html(msg);
+            clearTimeout(self.talkBallTimeout.left);
+            self.talkBallTimeout.left = setTimeout(()=>{
+                $(`.talk-ball.${pos}`).addClass('hide');
+            }, 2000);
+        }else if(pos == 'right'){
+            $('.talk-ball.right').removeClass('hide').html(msg);
+            clearTimeout(self.talkBallTimeout.right);
+            self.talkBallTimeout.right = setTimeout(()=>{
+                $(`.talk-ball.${pos}`).addClass('hide');
+            }, 2000);
+        }
     },
     bindEven: function(){
         var self = this;
@@ -629,6 +682,7 @@ var app = {
                 var param = {
                     type: 'chat',
                     uid: self.curUid,
+                    name: self.curUid,
                     ct: 2,
                     msg: emjoyId,
                 }
@@ -645,6 +699,7 @@ var app = {
                 var param = {
                     type: 'chat',
                     uid: self.curUid,
+                    name: self.curUid,
                     ct: 1,
                     msg: talkMsg,
                 }
@@ -663,7 +718,7 @@ var app = {
         var self = this;
         var option = {
             //url: 'ws://120.26.207.102:7272',
-            url: 'ws://192.168.1.250:7272',
+            url: 'ws://192.168.1.2:7272',
             callback: function(jdata){
                 if(typeof(jdata) == 'string'){
                     jdata = JSON.parse(jdata);
@@ -680,6 +735,7 @@ var app = {
 
                 // 重连倒计时操作
                 if(jdata.nowTime && window.localStorage.getItem('localrtime')){
+                    console.log(self.timeoutIntervalBeginVal, jdata.nowTime, window.localStorage.getItem('localrtime'));
                     self.timeoutIntervalBeginVal = self.timeoutIntervalBeginVal - (jdata.nowTime - window.localStorage.getItem('localrtime'));
                     self.showTimeoutClock(jdata ? jdata.currOpUid : '', self.timeoutIntervalBeginVal);
                     console.log('reset time begin val', self.timeoutIntervalBeginVal);
@@ -751,6 +807,10 @@ var app = {
                         // 显示人 加入 or 离开
                         self.showSitDown(jdata.player);
                     }
+                }
+
+                if(jdata.type == 'chat'){
+                    self.showChatMsg(jdata);
                 }
 
                 if(jdata.tableInfo){

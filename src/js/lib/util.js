@@ -135,15 +135,33 @@ export default {
     },
     getChuPai: function(){
         var rsArr = [];
-        $('.js-game-playingui .selected').each(function(){
+        $('.main-pocket-wrap .selected').each(function(){
             rsArr.push($(this).attr('pknum'));
         })
         return rsArr;
     },
+    isArrSame: function(arr1, arr2){
+        if(arr1.length != arr2.length ){
+            return false;
+        }
+        for(var n  in  arr1){
+            if(arr1[n]*1 != arr2[n]*1){
+                return false;
+            }
+        }
+        return true;
+    },
+    deskHadbuild: function(){
+        var rsArr = [];
+        $('.js-chupaiqu-wrap .pok').each(function(){
+            rsArr.push($(this).attr('pknum') * 1);
+        });
+        return rsArr.sort((a, b)=> b-a);
+    },
     deskRebuild: function(){
         var rsArr = [];
-        $('.js-game-playingui .pok').each(function(){
-            rsArr.push($(this).attr('pknum'));
+        $('.main-pocket-wrap .pok').each(function(){
+            rsArr.push($(this).attr('pknum') * 1);
         });
         return rsArr.sort((a, b)=> b-a);
     },
