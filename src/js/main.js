@@ -249,19 +249,19 @@ var app = {
         }else{
             self.showGameBt();
         }
-        $('.jiaodizhu-tips').addClass('hide');
-        if(jdata.lUid){
-            var ctrUser = UTIL.getOPUser(self.curUid, jdata.lUid);
-            if(ctrUser == 'mine'){
-                $('.jiaodizhu-tips.mine').removeClass('hide');
-            }else if(jdata){
-                if(ctrUser == 'left'){
-                    $('.jiaodizhu-tips.left').removeClass('hide');
-                }else if(ctrUser == 'right'){
-                    $('.jiaodizhu-tips.right').removeClass('hide');
-                }
-            }
-        }
+        // $('.jiaodizhu-tips').addClass('hide');
+        // if(jdata.lUid){
+        //     var ctrUser = UTIL.getOPUser(self.curUid, jdata.lUid);
+        //     if(ctrUser == 'mine'){
+        //         $('.jiaodizhu-tips.mine').removeClass('hide');
+        //     }else if(jdata){
+        //         if(ctrUser == 'left'){
+        //             $('.jiaodizhu-tips.left').removeClass('hide');
+        //         }else if(ctrUser == 'right'){
+        //             $('.jiaodizhu-tips.right').removeClass('hide');
+        //         }
+        //     }
+        // }
     },
     //  显示倒计时
     showTimeoutClock: function(opuid, timeoutval){
@@ -317,7 +317,7 @@ var app = {
         // }
         self.showChuPaiCtrl(jdata.lUid);
         self.showTimeoutClock(jdata ? jdata.lUid : '', self.timeoutIntervalBeginVal);
-        $('.jiaodizhu-tips').addClass('hide');
+        // $('.jiaodizhu-tips').addClass('hide');
     },
     // 出牌展示
     showChuPaiView: function(jdata){
@@ -463,6 +463,22 @@ var app = {
         }
         self.curWebSocket.send(JSON.stringify(param));
     },
+    // 发送文本信息
+    sendTextMsg: function(talkMsg){
+        var self = this;
+        if(self.curWebSocket){
+            var param = {
+                type: 'chat',
+                uid: self.curUid,
+                name: self.curUid,
+                ct: 1,
+                msg: talkMsg,
+            }
+            self.curWebSocket.send(JSON.stringify(param));
+        }else{
+            console.log('websocket not exist');
+        }
+    },
     // 显示聊天记录
     showChatMsg: function(jdata) {
         var self = this;
@@ -499,6 +515,7 @@ var app = {
                 $(`.talk-ball.${pos}`).addClass('hide');
             }, 2000);
         }
+        $('.js-im-wrap').addClass('hide');
     },
     bindEven: function(){
         var self = this;
@@ -549,6 +566,7 @@ var app = {
 
         // 叫地主
         $('.bt-jiaodizhu').on('click', function(){
+            self.sendTextMsg('叫地主');
             if(self.curWebSocket){
                 var param = {
                     type: 'll',
@@ -562,6 +580,7 @@ var app = {
         });
         // 不叫地主
         $('.bt-bujiaodizhu').on('click', function(){
+            self.sendTextMsg('不叫');
             if(self.curWebSocket){
                 var param = {
                     type: 'll',
@@ -583,6 +602,7 @@ var app = {
         });
         // 出牌
         $('.bt-chupai').on('click', function(){
+            self.sendTextMsg('出牌');
             if(self.curWebSocket){
                 var param = {
                     type: 'play',
@@ -597,6 +617,7 @@ var app = {
         });
         // 不出牌
         $('.bt-buchu').on('click', function(){
+            self.sendTextMsg('要不起');
             if(self.curWebSocket){
                 var param = {
                     type: 'play',
@@ -695,18 +716,7 @@ var app = {
         // im 聊天发送
         $('.js-talk-wrap > li').on('click', function(){
             var talkMsg = $(this).html();
-            if(self.curWebSocket){
-                var param = {
-                    type: 'chat',
-                    uid: self.curUid,
-                    name: self.curUid,
-                    ct: 1,
-                    msg: talkMsg,
-                }
-                self.curWebSocket.send(JSON.stringify(param));
-            }else{
-                console.log('websocket not exist');
-            }
+            self.sendTextMsg(talkMsg);
         });
 
         // 换台
