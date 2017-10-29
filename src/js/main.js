@@ -77,6 +77,12 @@ var app = {
         }else{
             // 其他人坐下 or 离开
             if(!$('.user-info-wrap.left').attr('uid') || $('.user-info-wrap.left').attr('uid') == jdata.uid){
+                // 发现左右两个玩家一样
+                if($('.user-info-wrap.left').attr('uid') == $('.user-info-wrap.right').attr('uid')){
+                    console.log('-------- left right same -------');
+                    $('.user-info-wrap.right').removeAttr('uid');
+                }
+
                 if(jdata.status == -1){
                     $('.user-info-wrap.left').removeAttr('uid');
                     $('.sit-down-bt.one').addClass('hide');
@@ -379,7 +385,7 @@ var app = {
                 clearInterval(self.playInterVal);
             }
             $('.game-result-main').removeClass('pm-win pm-lose dz-win dz-lose');
-            if(jdata.winUid == self.curUid){
+            if(UTIL.isInArr(jdata.winUid, self.curUid)){
                 // 胜利
                 if(self.curluid == self.curUid){
                     //地主胜利
@@ -392,7 +398,7 @@ var app = {
                 // 失败
                 if(self.curluid == self.curUid){
                     //地主失败
-                    $('.game-result-main').addClass('pm-lose');
+                    $('.game-result-main').addClass('dz-lose');
                 }else{
                     //平民失败
                     $('.game-result-main').addClass('pm-lose');

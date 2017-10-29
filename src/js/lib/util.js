@@ -140,6 +140,14 @@ export default {
         })
         return rsArr;
     },
+    isInArr: function(arr, val){
+        for(var n in arr){
+            if(val == arr[n]){
+                return true;
+            }
+        }
+        return false;
+    },
     isArrSame: function(arr1, arr2){
         if(arr1.length != arr2.length ){
             return false;
