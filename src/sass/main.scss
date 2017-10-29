@@ -124,9 +124,10 @@ body{
         color: #FFF;
         top:rem(290);
         background: url('../img/page/poker/back.png') no-repeat;
-        background-size: 100% auto;
+        background-size: 100% 100%;
         text-align: center;
         line-height: rem(60); 
+        text-shadow: 0 rem(2) #7a5f2f, rem(2) 0 #7a5f2f, rem(-2) 0 #7a5f2f, 0 rem(-2) #7a5f2f;
         &.left{
             left: rem(220);
         }

@@ -1,5 +1,7 @@
 import POCKETARR from './lib/pocket.js';
 import UTIL from './lib/util.js';
+import VConsole from './lib/vconsole.min.js';
+
 $('.loading-wrap-font').html(`${window.location.href.match(/uid=(\d+)/) ? window.location.href.match(/uid=(\d+)/)[1] : '1001'}在四处找板凳`);
 setTimeout(function() {
     $('.js-loading-line').addClass('full');
@@ -22,6 +24,7 @@ var app = {
     timeoutInterval: null, // 倒计时显示定时器
     timeoutIntervalVal: 0, // 倒计时显示器显示值
     timeoutIntervalBeginVal: 0, // 倒计时开始值
+    vConsole: null,
     talkBallTimeout: {
         left: null,
         right: null,
@@ -38,6 +41,7 @@ var app = {
         // 开始ws
         self.beginWS();
         self.bindEven();
+        self.vConsole = new VConsole({maxLogNumber: 5000});
     },
     showGameWrap: function(){
         var self = this;
@@ -242,6 +246,11 @@ var app = {
         if(jdata.rTime){
             window.localStorage.setItem('localrtime', jdata.rTime);
         }
+
+        if(jdata.multiple){
+            $('.js-multiple-show').html(`本盘总倍数：${jdata.multiple}倍`);
+            $('.font-beishu').html(jdata.multiple);
+        }
         
         $('.js-game-playingui').removeClass('hide');
         $('.js-game-waittingui').addClass('hide');
@@ -404,10 +413,6 @@ var app = {
                     $('.game-result-main').addClass('pm-lose');
                 }
             }
-            // 倍数显示
-            if(jdata.multiple){
-                $('.js-multiple-show').html(`本盘总倍数：${jdata.multiple}倍`);
-            }
             setTimeout(()=>{
                 $('.js-game-result-wrap').removeClass('hide');
             }, 1000);
@@ -419,8 +424,7 @@ var app = {
         // 取消托管ui
         $('.js-chupaiqu-wrap').html('');
         $('.js-quxiaotuoguan').addClass('hide');
-        $('.js-player-avatar').parent('.avatar-wrap').removeClass('tuoguan');
-
+        $('.tuoguan').removeClass('tuoguan');
     },
     // 出牌轮换
     showChuPai: function(jdata){
@@ -599,7 +603,7 @@ var app = {
             }
         });
         // 选牌
-        $('.main-pocket-wrap').on('click', '.pok', function(){
+        $('.main-pocket-wrap').on('touchstart', '.pok', function(){
             if($(this).hasClass('selected')){
                 $(this).removeClass('selected');
             }else{
@@ -733,8 +737,8 @@ var app = {
     beginWS: function(){
         var self = this;
         var option = {
-            //url: 'ws://120.26.207.102:7272',
-            url: 'ws://192.168.1.2:7272',
+            url: 'ws://120.26.207.102:7272',
+            //url: 'ws://192.168.1.2:7272',
             callback: function(jdata){
                 if(typeof(jdata) == 'string'){
                     jdata = JSON.parse(jdata);
@@ -834,6 +838,12 @@ var app = {
                     self.showCanBegin(jdata.tableInfo);
                 }
 
+                // 倍数显示
+                if(jdata.multiple){
+                    $('.js-multiple-show').html(`本盘总倍数：${jdata.multiple}倍`);
+                    $('.font-beishu').html(jdata.multiple);
+                }
+
                 // 缓存上一次操作时间
                 if(jdata.rTime){
                     window.localStorage.setItem('localrtime', jdata.rTime);
@@ -919,3 +929,19 @@ window.onload = function(){
         app.init();
     },800)
 }
+
+document.addEventListener('touchmove',
+function(event){ 
+    //console.log('touchmove', event.touches[0]);
+    var x = event.touches[0].clientX;
+    var y = event.touches[0].clientY;
+    var w = x<0?x*-1:x;     //x轴的滑动值
+    var h = y<0?y*-1:y;     //y轴的滑动值
+    console.log('touchmove preventDefault',w,h,w>h);
+    if(w>h) {                //如果是在x轴中滑动
+        //event.preventDefault();
+    } else {
+        event.preventDefault();
+    }
+},false);
+
