@@ -1,6 +1,12 @@
 ## 接口文档
 [ws文档](http://testddz.tcpan.com/README.html)
 [后端文档]()
+
+## ftp路径
+```
+/data/www/testddz.tcpan.com/public/public
+```
+
 ## 第三方库文档
 ```
 {

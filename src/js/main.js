@@ -42,6 +42,7 @@ var app = {
         self.beginWS();
         self.bindEven();
         self.vConsole = new VConsole({maxLogNumber: 5000});
+        UTIL.soundInit();
     },
     showGameWrap: function(){
         var self = this;
@@ -498,6 +499,7 @@ var app = {
         // 如果已经坐下
         var ctrUser = UTIL.getOPUser(self.curUid, jdata.uid);
         self.showChatBall(ctrUser, jdata.msg, jdata.ct);
+        UTIL.showChatSound(jdata);
     },
     // 显示聊天气泡
     showChatBall: function(pos, msg, type){

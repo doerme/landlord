@@ -183,5 +183,25 @@ export default {
                 return 'right';
             }
         }
-    }
+    },
+    soundInit: function(){
+        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_NoOrder.ogg", 'dizhuNo1');
+        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_NoRob.ogg", 'dizhuNo2');
+        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Order.ogg", 'dizhuYes1');
+        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob1.ogg", 'dizhuYes2');
+        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob2.ogg", 'dizhuYes3');
+        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob3.ogg", 'dizhuYes4');
+    },
+    showChatSound: function(jdata){
+        var self = this;
+        if(jdata.msg == '叫地主'){
+            createjs.Sound.play('dizhuYes1');
+        }else if(jdata.msg == '不叫地主'){
+            createjs.Sound.play('dizhuNo1');
+        }else if(jdata.msg == '要不起'){
+            createjs.Sound.play('dizhuNo1');
+        }else if(jdata.msg == '出牌'){
+            createjs.Sound.play('dizhuNo1');
+        }
+    },
 }
