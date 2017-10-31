@@ -474,6 +474,55 @@ var app = {
         }
         self.curWebSocket.send(JSON.stringify(param));
     },
+    // 显示出牌类型
+    /*
+    const CARD_TYPE_KING = 1;//火箭
+    const CARD_TYPE_BOMB = 2;//炸弹
+    const CARD_TYPE_SINGLE = 3;//单支
+    const CARD_TYPE_DOUBLE = 4;//对子
+    const CARD_TYPE_THREE = 5;//三条
+    const CARD_TYPE_THREE_WITH = 6;//三带一手
+    const CARD_TYPE_SINGLE_STRAIGHT = 7;//单顺
+    const CARD_TYPE_DOUBLE_STRAIGHT = 8;//双牌straight
+    const CARD_TYPE_THREE_STRAIGHT = 9;//三顺
+    const CARD_TYPE_THREE_STRAIGHT_WITH = 10;//飞机带翅膀
+    const CARD_TYPE_FOUR_WITH = 11;//四带二
+    */
+    showCardType: function(jdata){
+        var self = this;
+        console.log('showCardType', jdata);
+        switch(jdata.type){
+            case 1:
+            break;
+            case 2:
+            createjs.Sound.play('zhadan');
+            break;
+            case 3: // 单支
+            UTIL.SoundSingle(jdata.minValue);
+            break; // 对子
+
+            case 4:
+            break;
+            case 5:
+            break;
+            case 6:
+            createjs.Sound.play('sandaiyi');
+            break;
+            case 7:
+            break;
+            case 8:
+            break;
+            case 9:
+            break;
+            case 10:
+            createjs.Sound.play('feiji');
+            break;
+            case 11:
+            createjs.Sound.play('sidailiangdui');
+            break;
+        }
+
+    },
     // 发送文本信息
     sendTextMsg: function(talkMsg){
         var self = this;
@@ -838,6 +887,11 @@ var app = {
                 if(jdata.tableInfo){
                     // 显示牌局
                     self.showCanBegin(jdata.tableInfo);
+                }
+
+                if(jdata.playCardType){
+                    // 显示出牌类型
+                    self.showCardType(jdata.playCardType);
                 }
 
                 // 倍数显示

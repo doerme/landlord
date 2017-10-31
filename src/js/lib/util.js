@@ -185,23 +185,66 @@ export default {
         }
     },
     soundInit: function(){
+        // 地主
         createjs.Sound.registerSound("/assets/ogg/dizhu/Man_NoOrder.ogg", 'dizhuNo1');
         createjs.Sound.registerSound("/assets/ogg/dizhu/Man_NoRob.ogg", 'dizhuNo2');
         createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Order.ogg", 'dizhuYes1');
         createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob1.ogg", 'dizhuYes2');
         createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob2.ogg", 'dizhuYes3');
         createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob3.ogg", 'dizhuYes4');
+        // 不要
+        
+        // 特效
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_feiji.ogg", 'feiji');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_liandui.ogg", 'liandui');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_sandaiyi.ogg", 'sandaiyi');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_sandaiyidui.ogg", 'sandaiyidui');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_shunzi.ogg", 'shunzi');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_sidaier.ogg", 'sidaier');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_sidailiangdui.ogg", 'sidailiangdui');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_wangzha.ogg", 'wangzha');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_zhadan.ogg", 'zhadan');
+
+        // 单支
+        createjs.Sound.registerSound("/assets/ogg/single/Man_1.ogg", 'sin1');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_2.ogg", 'sin2');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_3.ogg", 'sin3');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_4.ogg", 'sin4');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_5.ogg", 'sin5');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_6.ogg", 'sin6');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_7.ogg", 'sin7');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_8.ogg", 'sin8');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_9.ogg", 'sin9');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_10.ogg", 'sin10');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_11.ogg", 'sin11');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_12.ogg", 'sin12');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_13.ogg", 'sin13');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_14.ogg", 'sin14');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_15.ogg", 'sin15');
+    },
+    SoundSingle: function(num){
+        if(num == 14){
+            createjs.Sound.play('sin1');
+        }else if(num == 15){
+            createjs.Sound.play('sin2');
+        }else if(num == 16){
+            createjs.Sound.play('sin14');
+        }else if(num == 17){
+            createjs.Sound.play('sin15');
+        }else{
+            createjs.Sound.play(`sin${num - 2}`);
+        }
     },
     showChatSound: function(jdata){
         var self = this;
         if(jdata.msg == '叫地主'){
             createjs.Sound.play('dizhuYes1');
-        }else if(jdata.msg == '不叫地主'){
+        }else if(jdata.msg == '不叫'){
             createjs.Sound.play('dizhuNo1');
         }else if(jdata.msg == '要不起'){
-            createjs.Sound.play('dizhuNo1');
+            createjs.Sound.play('dizhuNo4');
         }else if(jdata.msg == '出牌'){
-            createjs.Sound.play('dizhuNo1');
+            // createjs.Sound.play('dizhuNo1');
         }
     },
 }

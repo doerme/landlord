@@ -1,6 +1,7 @@
 ## 接口文档
 [ws文档](http://testddz.tcpan.com/README.html)
 [后端文档]()
+[重置ws服务](http://testddz.tcpan.com/ddz/clear)
 
 ## ftp路径
 ```
