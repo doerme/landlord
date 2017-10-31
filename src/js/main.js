@@ -3,9 +3,10 @@ import UTIL from './lib/util.js';
 import VConsole from './lib/vconsole.min.js';
 
 $('.loading-wrap-font').html(`${window.location.href.match(/uid=(\d+)/) ? window.location.href.match(/uid=(\d+)/)[1] : '1001'}在四处找板凳`);
-setTimeout(function() {
+createjs.Sound.on("fileload", function(){
     $('.js-loading-line').addClass('full');
-}, 100);
+}, this);
+
 //window.localStorage.setItem('localrtime', null);
 
 /** 房间状态 */
