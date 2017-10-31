@@ -159,9 +159,17 @@ export default {
         }
         return true;
     },
-    deskHadbuild: function(){
+    deskHadbuild: function(ctrUser){
         var rsArr = [];
-        $('.js-chupaiqu-wrap .pok').each(function(){
+        var $chupai = null;
+        if(ctrUser == 'mine'){
+            $chupai = $('.chupaiqu-wrap-mine');
+        }else if(ctrUser == 'left'){
+            $chupai = $('.chupaiqu-wrap-left');
+        }else if(ctrUser == 'right'){
+            $chupai = $('.chupaiqu-wrap-right');
+        }
+        $chupai.each(function(){
             rsArr.push($(this).attr('pknum') * 1);
         });
         return rsArr.sort((a, b)=> b-a);
@@ -328,8 +336,6 @@ export default {
             createjs.Sound.play('dizhuYes1');
         }else if(jdata.msg == '不叫'){
             createjs.Sound.play('dizhuNo1');
-        }else if(jdata.msg == '要不起'){
-            createjs.Sound.play('buyao4');
         }
     },
     pokRunDown: function(){

@@ -355,34 +355,39 @@ var app = {
     showChuPaiView: function(jdata){
         var self = this;
         var ctrUser = UTIL.getOPUser(self.curUid,jdata.lastOpUid);
-        var $chupai = null;
-        if(ctrUser == 'mine'){
-            $chupai = $('.chupaiqu-wrap-mine');
-        }else if(ctrUser == 'left'){
-            $chupai = $('.chupaiqu-wrap-left');
-        }else if(ctrUser == 'right'){
-            $chupai = $('.chupaiqu-wrap-right');
-        }
-        console.log('showChuPaiView', $chupai, jdata.lastCardNos, UTIL.deskHadbuild(), UTIL.isArrSame(jdata.lastCardNos, UTIL.deskHadbuild()));
-        if(!UTIL.isArrSame(jdata.lastCardNos, UTIL.deskHadbuild())){
-            if(jdata.lastCardNos && jdata.lastCardNos.length > 0){
-                $chupai.html(PAGETPL.pocketwrap({
-                    cardarr: jdata.lastCardNos,
-                    carddata: POCKETARR.pocketArr,
-                    fromuser: ctrUser
-                })).removeClass('hide');
+        if(jdata.playCardType){
+            var $chupai = null;
+            if(ctrUser == 'mine'){
+                $chupai = $('.chupaiqu-wrap-mine');
+            }else if(ctrUser == 'left'){
+                $chupai = $('.chupaiqu-wrap-left');
+            }else if(ctrUser == 'right'){
+                $chupai = $('.chupaiqu-wrap-right');
             }
-
-            // 减牌
-            if(jdata.lastCardNos && jdata.lastOpUid == self.curUid){
-                for(var n in jdata.lastCardNos){
-                    $(`.main-pocket-wrap .pok[pknum="${jdata.lastCardNos[n]}"]`).remove();
+            console.log('showChuPaiView', $chupai, jdata.lastCardNos, UTIL.deskHadbuild(ctrUser), UTIL.isArrSame(jdata.lastCardNos, UTIL.deskHadbuild(ctrUser)));
+            if(!UTIL.isArrSame(jdata.lastCardNos, UTIL.deskHadbuild(ctrUser))){
+                if(jdata.lastCardNos && jdata.lastCardNos.length > 0){
+                    $chupai.html(PAGETPL.pocketwrap({
+                        cardarr: jdata.lastCardNos,
+                        carddata: POCKETARR.pocketArr,
+                        fromuser: ctrUser
+                    })).removeClass('hide');
                 }
-                $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
-                    cardarr: UTIL.deskRebuild(),
-                    carddata: POCKETARR.pocketArr
-                }))
+
+                // 减牌
+                if(jdata.lastCardNos && jdata.lastOpUid == self.curUid){
+                    for(var n in jdata.lastCardNos){
+                        $(`.main-pocket-wrap .pok[pknum="${jdata.lastCardNos[n]}"]`).remove();
+                    }
+                    $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
+                        cardarr: UTIL.deskRebuild(),
+                        carddata: POCKETARR.pocketArr
+                    }))
+                }
             }
+        }else{
+            // 没出牌
+            createjs.Sound.play('buyao4');
         }
 
         if(jdata.lastOpCardNum){
