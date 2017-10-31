@@ -493,32 +493,37 @@ var app = {
         console.log('showCardType', jdata);
         switch(jdata.type){
             case 1:
+            createjs.Sound.play('dani1');
             break;
             case 2:
             createjs.Sound.play('zhadan');
             break;
             case 3: // 单支
             UTIL.SoundSingle(jdata.minValue);
-            break; // 对子
-
-            case 4:
+            break; 
+            case 4: // 对子
+            UTIL.SoundDouble(jdata.minValue);
             break;
-            case 5:
+            case 5: // 三条
+            UTIL.SoundTuple(jdata.minValue);
             break;
             case 6:
             createjs.Sound.play('sandaiyi');
             break;
             case 7:
+            createjs.Sound.play('shunzi');
             break;
             case 8:
+            createjs.Sound.play('liandui');
             break;
             case 9:
+            createjs.Sound.play('sandaiyidui');
             break;
             case 10:
             createjs.Sound.play('feiji');
             break;
             case 11:
-            createjs.Sound.play('sidailiangdui');
+            createjs.Sound.play('sidaier');
             break;
         }
 

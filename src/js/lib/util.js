@@ -185,6 +185,11 @@ export default {
         }
     },
     soundInit: function(){
+        // 普通出牌
+        createjs.Sound.registerSound("/assets/ogg/common/Man_dani1.ogg", 'dani1');
+        createjs.Sound.registerSound("/assets/ogg/common/Man_dani2.ogg", 'dani2');
+        createjs.Sound.registerSound("/assets/ogg/common/Man_dani3.ogg", 'dani3');
+
         // 地主
         createjs.Sound.registerSound("/assets/ogg/dizhu/Man_NoOrder.ogg", 'dizhuNo1');
         createjs.Sound.registerSound("/assets/ogg/dizhu/Man_NoRob.ogg", 'dizhuNo2');
@@ -192,8 +197,13 @@ export default {
         createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob1.ogg", 'dizhuYes2');
         createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob2.ogg", 'dizhuYes3');
         createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob3.ogg", 'dizhuYes4');
+
         // 不要
-        
+        createjs.Sound.registerSound("/assets/ogg/buyao/Man_buyao1.ogg", 'buyao1');
+        createjs.Sound.registerSound("/assets/ogg/buyao/Man_buyao2.ogg", 'buyao2');
+        createjs.Sound.registerSound("/assets/ogg/buyao/Man_buyao3.ogg", 'buyao3');
+        createjs.Sound.registerSound("/assets/ogg/buyao/Man_buyao4.ogg", 'buyao4');
+
         // 特效
         createjs.Sound.registerSound("/assets/ogg/texiao/Man_feiji.ogg", 'feiji');
         createjs.Sound.registerSound("/assets/ogg/texiao/Man_liandui.ogg", 'liandui');
@@ -221,6 +231,40 @@ export default {
         createjs.Sound.registerSound("/assets/ogg/single/Man_13.ogg", 'sin13');
         createjs.Sound.registerSound("/assets/ogg/single/Man_14.ogg", 'sin14');
         createjs.Sound.registerSound("/assets/ogg/single/Man_15.ogg", 'sin15');
+
+        // 对
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui1.ogg", 'dui1');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui2.ogg", 'dui2');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui3.ogg", 'dui3');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui4.ogg", 'dui4');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui5.ogg", 'dui5');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui6.ogg", 'dui6');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui7.ogg", 'dui7');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui8.ogg", 'dui8');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui9.ogg", 'dui9');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui10.ogg", 'dui10');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui11.ogg", 'dui11');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui12.ogg", 'dui12');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui13.ogg", 'dui13');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui14.ogg", 'dui14');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui15.ogg", 'dui15');
+
+        // 三
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple1.ogg", 'tuple1');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple2.ogg", 'tuple2');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple3.ogg", 'tuple3');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple4.ogg", 'tuple4');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple5.ogg", 'tuple5');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple6.ogg", 'tuple6');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple7.ogg", 'tuple7');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple8.ogg", 'tuple8');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple9.ogg", 'tuple9');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple10.ogg", 'tuple10');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple11.ogg", 'tuple11');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple12.ogg", 'tuple12');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple13.ogg", 'tuple13');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple14.ogg", 'tuple14');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple15.ogg", 'tuple15');
     },
     SoundSingle: function(num){
         if(num == 14){
@@ -232,7 +276,33 @@ export default {
         }else if(num == 17){
             createjs.Sound.play('sin15');
         }else{
-            createjs.Sound.play(`sin${num - 2}`);
+            createjs.Sound.play(`sin${num}`);
+        }
+    },
+    SoundDouble: function(num){
+        if(num == 14){
+            createjs.Sound.play('dui1');
+        }else if(num == 15){
+            createjs.Sound.play('dui2');
+        }else if(num == 16){
+            createjs.Sound.play('dui14');
+        }else if(num == 17){
+            createjs.Sound.play('dui15');
+        }else{
+            createjs.Sound.play(`dui${num}`);
+        }
+    },
+    SoundTuple: function(num){
+        if(num == 14){
+            createjs.Sound.play('tuple1');
+        }else if(num == 15){
+            createjs.Sound.play('tuple2');
+        }else if(num == 16){
+            createjs.Sound.play('tuple14');
+        }else if(num == 17){
+            createjs.Sound.play('tuple15');
+        }else{
+            createjs.Sound.play(`tuple${num}`);
         }
     },
     showChatSound: function(jdata){
@@ -242,9 +312,7 @@ export default {
         }else if(jdata.msg == '不叫'){
             createjs.Sound.play('dizhuNo1');
         }else if(jdata.msg == '要不起'){
-            createjs.Sound.play('dizhuNo4');
-        }else if(jdata.msg == '出牌'){
-            // createjs.Sound.play('dizhuNo1');
+            createjs.Sound.play('buyao4');
         }
     },
 }
