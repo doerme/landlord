@@ -7,9 +7,9 @@ $font_size : 75;
 }
 
 @import "base/base";
-
-@import "img";
 @import "base/page";
+@import "img";
+
 
 body{
     position: absolute;
@@ -67,30 +67,30 @@ body{
     .main-pocket-wrap{
         position: absolute;
         top: rem(690);
-        left: 0;
-        width: 100%;
+        left: 15%;
+        width: 80%;
         height: rem(414);
+        text-align: center;
         &-top{
             position: relative;
-            height: rem(205);
-            margin-left: rem(-40);
-        }
-        &-bottom{
-            position: relative;
-            height: rem(205);
-            margin-left: rem(-40);
+            text-align: center;
         }
         .pok{
-            position: absolute;
+            display: inline-block;
             width: rem(130);
             height: rem(190);
-            @for $i from 1 through 18 {
-                &:nth-child(#{$i}){
-                    left: #{$i*60/75}rem;
-                }
-            }
+            margin-left: rem(-80);
+            margin-bottom: rem(30);
+            // @for $i from 1 through 18 {
+            //     &:nth-child(#{$i}){
+            //         left: #{$i*60/75}rem;
+            //     }
+            // }
             &.selected{
                 margin-top: rem(-30);
+            }
+            &.notshow{
+                opacity: 0;
             }
         }
     }

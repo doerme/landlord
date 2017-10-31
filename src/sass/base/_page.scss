@@ -4,6 +4,23 @@
     opacity: 0;
 }
 
+.animate-wrap{
+    position: absolute;
+    width: rem(130);
+    height: rem(190);
+    left: 50%;
+    top: rem(370);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    .pok,.pokback{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+    }
+}
+
 .waitting-note{
     position: absolute;
     width: rem(303);
@@ -18,20 +35,41 @@
     left: rem(0);
     width: 100%;
     height: rem(190);
-    text-align: center;
-    overflow-x: auto;
-    -webkit-overflow-scrolling:touch;
+    overflow: hidden;
     white-space: nowrap;
+    &-mine{
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: rem(95);
+        text-align: center;
+    }
+    &-left{
+        position: absolute;
+        left: 5%;
+        top: 0;
+        width: 80%;
+        height: rem(95);
+        text-align: left;
+    }
+    &-right{
+        position: absolute;
+        right: 5%;
+        top: 0;
+        width: 80%;
+        height: rem(95);
+        text-align: right;
+    }
     .pok{
         display: inline-block;
         // position: absolute;
-        width: rem(130);
-        height: rem(190);
-
+        width: rem(65);
+        height: rem(95);
         @for $i from 2 through 18 {
             &:nth-child(#{$i}){
                 //left: #{$i*60/75}rem;
-                margin-left: rem(-80);
+                margin-left: rem(0);
             }
         }
     }
@@ -41,7 +79,7 @@
     width: rem(97);
     height: rem(98);
     vertical-align: middle;
-    background: url('../img/page/timeout-clock.png') no-repeat rem(-4) top;
+    background: url('../img/page/timeout-clock.png') no-repeat rem(-6) top;
     background-size: 100% auto;
     font-size: rem(37);
     text-align: center;

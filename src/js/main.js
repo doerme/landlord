@@ -15,8 +15,9 @@ var DFAVATAR = 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=807731
 var PAGETPL = {
     mainpocketwrap: require('./tpl/mainpocketwrap.tpl'),
     pocketwrap: require('./tpl/pocketwrap.tpl'),
-    resultuserlist: require('./tpl/resultlistwrap'),
-    chatmsgline: require('./tpl/chatmsgline'),
+    resultuserlist: require('./tpl/resultlistwrap.tpl'),
+    chatmsgline: require('./tpl/chatmsgline.tpl'),
+    backpoklist: require('./tpl/backpok.tpl')
 }
 
 var app = {
@@ -203,12 +204,25 @@ var app = {
         // 自己牌区
         $('.main-pocket-wrap').html(PAGETPL.mainpocketwrap({
             cardarr: jdata.selfCardNos,
+            carddata: POCKETARR.pocketArr,
+            begin: true
+        }));
+        $('.js-animate-wrap > .animate-wrap-mine').html(PAGETPL.pocketwrap({
+            cardarr: UTIL.deskRebuild(),
             carddata: POCKETARR.pocketArr
         }));
+        $('.js-animate-wrap > .animate-wrap-left').html(PAGETPL.backpoklist());
+        $('.js-animate-wrap > .animate-wrap-right').html(PAGETPL.backpoklist());
+
+        // 发牌动画
+        setTimeout(function() {
+            UTIL.pokRunDown();
+        }, 200);
+        
+
         // 对方牌区
         for(var n in jdata.cardNums){
             var ctrUser = UTIL.getOPUser(self.curUid, n);
-            UTIL.SoundRest(jdata.cardNums[n]);
             if(ctrUser == 'left'){
                 $('.pocket-num.left').html(jdata.cardNums[n]).removeClass('hide');
             }else if(ctrUser == 'right'){
@@ -341,10 +355,18 @@ var app = {
     showChuPaiView: function(jdata){
         var self = this;
         var ctrUser = UTIL.getOPUser(self.curUid,jdata.lastOpUid);
-        console.log('showChuPaiView', jdata.lastCardNos, UTIL.deskHadbuild(), UTIL.isArrSame(jdata.lastCardNos, UTIL.deskHadbuild()));
+        var $chupai = null;
+        if(ctrUser == 'mine'){
+            $chupai = $('.chupaiqu-wrap-mine');
+        }else if(ctrUser == 'left'){
+            $chupai = $('.chupaiqu-wrap-left');
+        }else if(ctrUser == 'right'){
+            $chupai = $('.chupaiqu-wrap-right');
+        }
+        console.log('showChuPaiView', $chupai, jdata.lastCardNos, UTIL.deskHadbuild(), UTIL.isArrSame(jdata.lastCardNos, UTIL.deskHadbuild()));
         if(!UTIL.isArrSame(jdata.lastCardNos, UTIL.deskHadbuild())){
             if(jdata.lastCardNos && jdata.lastCardNos.length > 0){
-                $('.js-chupaiqu-wrap').html(PAGETPL.pocketwrap({
+                $chupai.html(PAGETPL.pocketwrap({
                     cardarr: jdata.lastCardNos,
                     carddata: POCKETARR.pocketArr,
                     fromuser: ctrUser
@@ -364,6 +386,7 @@ var app = {
         }
 
         if(jdata.lastOpCardNum){
+            UTIL.SoundRest(jdata.lastOpCardNum);
             if(ctrUser == 'left'){
                 $('.pocket-num.left').html(jdata.lastOpCardNum).removeClass('hide');
             }else if(ctrUser == 'right'){
@@ -418,6 +441,7 @@ var app = {
             }
             setTimeout(()=>{
                 $('.js-game-result-wrap').removeClass('hide');
+                createjs.Sound.play('SpecBeanMore');
             }, 1000);
         }
         $('.js-result-user-list').html(PAGETPL.resultuserlist({
@@ -425,7 +449,9 @@ var app = {
         }));
 
         // 取消托管ui
-        $('.js-chupaiqu-wrap').html('');
+        $('.js-chupaiqu-wrap > div').each(function(){
+            $(this).html('');
+        });
         $('.js-quxiaotuoguan').addClass('hide');
         $('.tuoguan').removeClass('tuoguan');
     },
@@ -495,7 +521,7 @@ var app = {
         console.log('showCardType', jdata);
         switch(jdata.type){
             case 1:
-            createjs.Sound.play('dani1');
+            createjs.Sound.play('wangzha');
             break;
             case 2:
             createjs.Sound.play('zhadan');

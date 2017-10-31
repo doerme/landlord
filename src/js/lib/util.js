@@ -166,12 +166,17 @@ export default {
         });
         return rsArr.sort((a, b)=> b-a);
     },
-    deskRebuild: function(){
+    deskRebuild: function(isR){
         var rsArr = [];
         $('.main-pocket-wrap .pok').each(function(){
             rsArr.push($(this).attr('pknum') * 1);
         });
-        return rsArr.sort((a, b)=> b-a);
+        if(isR){
+            return rsArr.sort((a, b)=> a-b);
+        }else{
+            return rsArr.sort((a, b)=> b-a);
+        }
+        
     },
     getOPUser: function(curuid, opuid){
         if(curuid == opuid){
@@ -185,6 +190,9 @@ export default {
         }
     },
     soundInit: function(){
+        // 结束音频
+        createjs.Sound.registerSound("/assets/ogg/result/SpecBeanMore.ogg", 'SpecBeanMore');
+
         // 普通出牌
         createjs.Sound.registerSound("/assets/ogg/common/Man_dani1.ogg", 'dani1');
         createjs.Sound.registerSound("/assets/ogg/common/Man_dani2.ogg", 'dani2');
@@ -246,8 +254,6 @@ export default {
         createjs.Sound.registerSound("/assets/ogg/dui/Man_dui11.ogg", 'dui11');
         createjs.Sound.registerSound("/assets/ogg/dui/Man_dui12.ogg", 'dui12');
         createjs.Sound.registerSound("/assets/ogg/dui/Man_dui13.ogg", 'dui13');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui14.ogg", 'dui14');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui15.ogg", 'dui15');
 
         // 三
         createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple1.ogg", 'tuple1');
@@ -263,12 +269,10 @@ export default {
         createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple11.ogg", 'tuple11');
         createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple12.ogg", 'tuple12');
         createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple13.ogg", 'tuple13');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple14.ogg", 'tuple14');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple15.ogg", 'tuple15');
 
         // 剩下牌
         createjs.Sound.registerSound("/assets/ogg/rest/Man_baojing1.ogg", 'baojing1');
-        createjs.Sound.registerSound("/assets/ogg/rest/Man_baojing1.ogg", 'baojing2');
+        createjs.Sound.registerSound("/assets/ogg/rest/Man_baojing2.ogg", 'baojing2');
     },
     SoundRest: function(num){
         setTimeout(()=>{
@@ -328,4 +332,63 @@ export default {
             createjs.Sound.play('buyao4');
         }
     },
+    pokRunDown: function(){
+        console.log('pokRunDown');
+        var $box = $('.js-animate-wrap .animate-wrap-mine .pok');
+        var $line = $('.main-pocket-wrap .pok');
+        var $boxleft = $('.js-animate-wrap .animate-wrap-left .pokback');
+        var $boxright = $('.js-animate-wrap .animate-wrap-right .pokback');
+        $box.removeClass('hide');
+        $line.addClass('notshow');
+        $boxleft.removeClass('hide');
+        $boxright.removeClass('hide');
+        var cptime = 0;
+        var backtime = 0;
+        var xOffet = window.innerWidth/2 - $('.js-animate-wrap .animate-wrap-mine .pok').eq(0).width()/2 - 15;
+        var yOffet = $('.main-pocket-wrap').position().top - $('.js-animate-wrap').position().top;
+		$box.each(function(index){
+            console.log(index, $line.eq(index).position().left, yOffet);
+            var unitYOffset = 0;
+            if($line.eq(index).position().top != $line.eq(0).position().top){
+                unitYOffset = $('.js-animate-wrap .animate-wrap-mine .pok').eq(0).height() + 15;
+            }
+			TweenLite.to($(this), 0.5, {
+				transform: 'translate('+ ($line.eq(index).position().left - xOffet) +'px, '+ (yOffet * 1 + unitYOffset) +'px)',
+				delay: index/10,
+				onComplete: seComplete
+			},);
+        });
+        
+        $boxleft.each(function(index){
+			TweenLite.to($(this), 0.5, {
+                left: $('.js-animate-wrap').position().left - $('.pocket-num.left').position().left + $('.js-animate-wrap .animate-wrap-mine .pok').eq(0).width()/2+ $('.pocket-num.left').width()/2,
+                top: $('.js-animate-wrap').position().top - $('.pocket-num.left').position().top + $('.pocket-num.left').width()/2,
+                width: $('.pocket-num.left').width(),
+                height: $('.pocket-num.left').height(),
+                delay: index/10,
+			},);
+        });
+
+        $boxright.each(function(index){
+			TweenLite.to($(this), 0.5, {
+                left: $('.js-animate-wrap').position().left - $('.pocket-num.right').position().left + $('.js-animate-wrap .animate-wrap-mine .pok').eq(0).width()/2+ $('.pocket-num.left').width()/2,
+                top: $('.js-animate-wrap').position().top - $('.pocket-num.right').position().top + $('.pocket-num.left').width()/2,
+                width: $('.pocket-num.left').width(),
+                height: $('.pocket-num.left').height(),
+                delay: index/10,
+				onComplete: sebackComplete
+			},);
+        });
+
+		function seComplete(){
+            $line.eq(cptime).removeClass('notshow');
+            $box.eq(cptime).addClass('hide');
+			cptime++;
+        }
+        function sebackComplete(){
+            $boxleft.eq(backtime).addClass('hide');
+            $boxright.eq(backtime).addClass('hide');
+            backtime++;
+        }
+    }
 }
