@@ -207,6 +207,7 @@ var app = {
         // 对方牌区
         for(var n in jdata.cardNums){
             var ctrUser = UTIL.getOPUser(self.curUid, n);
+            UTIL.SoundRest(jdata.cardNums[n]);
             if(ctrUser == 'left'){
                 $('.pocket-num.left').html(jdata.cardNums[n]).removeClass('hide');
             }else if(ctrUser == 'right'){

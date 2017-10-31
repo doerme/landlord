@@ -265,6 +265,19 @@ export default {
         createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple13.ogg", 'tuple13');
         createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple14.ogg", 'tuple14');
         createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple15.ogg", 'tuple15');
+
+        // 剩下牌
+        createjs.Sound.registerSound("/assets/ogg/rest/Man_baojing1.ogg", 'baojing1');
+        createjs.Sound.registerSound("/assets/ogg/rest/Man_baojing1.ogg", 'baojing2');
+    },
+    SoundRest: function(num){
+        setTimeout(()=>{
+            if(num == 2){
+                createjs.Sound.play('baojing2');
+            }else if(num == 1){
+                createjs.Sound.play('baojing1');
+            }
+        },1200);
     },
     SoundSingle: function(num){
         if(num == 14){
