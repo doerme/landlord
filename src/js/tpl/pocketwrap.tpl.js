@@ -1,2 +1,2 @@
-/*TMODJS:{"version":27,"md5":"b1eac2798d050785d4cb3024ca12b543"}*/
+/*TMODJS:{"version":31,"md5":"b1eac2798d050785d4cb3024ca12b543"}*/
 template("E:/wamp/www/Jeremy/panya/newweb/landlord/src/js/tpl/pocketwrap",function(a){"use strict";var b=this,c=(b.$helpers,b.$each),d=a.cardarr,e=(a.v,a.i,a.fromuser),f=b.$escape,g=a.carddata,h="";return c(d,function(a){h+=" <img ",e?(h+=" ","mine"==e?h+=' class="pt-page-moveFromBottomFade pok" ':"left"==e?h+=' class="pt-page-moveFromLeftFade pok" ':"right"==e&&(h+=' class="pt-page-moveFromRightFade pok" '),h+=" "):h+=' class="pok" ',h+=' src="',h+=f(g[a]),h+='" pknum="',h+=f(a),h+='" /> '}),new String(h)});

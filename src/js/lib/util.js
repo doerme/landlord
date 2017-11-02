@@ -199,88 +199,88 @@ export default {
     },
     soundInit: function(){
         // 结束音频
-        createjs.Sound.registerSound("/assets/ogg/result/SpecBeanMore.ogg", 'SpecBeanMore');
+        createjs.Sound.registerSound("/assets/ogg/result/SpecBeanMore.mp3", 'SpecBeanMore');
 
         // 普通出牌
-        createjs.Sound.registerSound("/assets/ogg/common/Man_dani1.ogg", 'dani1');
-        createjs.Sound.registerSound("/assets/ogg/common/Man_dani2.ogg", 'dani2');
-        createjs.Sound.registerSound("/assets/ogg/common/Man_dani3.ogg", 'dani3');
+        createjs.Sound.registerSound("/assets/ogg/common/Man_dani1.mp3", 'dani1');
+        createjs.Sound.registerSound("/assets/ogg/common/Man_dani2.mp3", 'dani2');
+        createjs.Sound.registerSound("/assets/ogg/common/Man_dani3.mp3", 'dani3');
 
         // 地主
-        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_NoOrder.ogg", 'dizhuNo1');
-        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_NoRob.ogg", 'dizhuNo2');
-        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Order.ogg", 'dizhuYes1');
-        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob1.ogg", 'dizhuYes2');
-        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob2.ogg", 'dizhuYes3');
-        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob3.ogg", 'dizhuYes4');
+        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_NoOrder.mp3", 'dizhuNo1');
+        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_NoRob.mp3", 'dizhuNo2');
+        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Order.mp3", 'dizhuYes1');
+        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob1.mp3", 'dizhuYes2');
+        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob2.mp3", 'dizhuYes3');
+        createjs.Sound.registerSound("/assets/ogg/dizhu/Man_Rob3.mp3", 'dizhuYes4');
 
         // 不要
-        createjs.Sound.registerSound("/assets/ogg/buyao/Man_buyao1.ogg", 'buyao1');
-        createjs.Sound.registerSound("/assets/ogg/buyao/Man_buyao2.ogg", 'buyao2');
-        createjs.Sound.registerSound("/assets/ogg/buyao/Man_buyao3.ogg", 'buyao3');
-        createjs.Sound.registerSound("/assets/ogg/buyao/Man_buyao4.ogg", 'buyao4');
+        createjs.Sound.registerSound("/assets/ogg/buyao/Man_buyao1.mp3", 'buyao1');
+        createjs.Sound.registerSound("/assets/ogg/buyao/Man_buyao2.mp3", 'buyao2');
+        createjs.Sound.registerSound("/assets/ogg/buyao/Man_buyao3.mp3", 'buyao3');
+        createjs.Sound.registerSound("/assets/ogg/buyao/Man_buyao4.mp3", 'buyao4');
 
         // 特效
-        createjs.Sound.registerSound("/assets/ogg/texiao/Man_feiji.ogg", 'feiji');
-        createjs.Sound.registerSound("/assets/ogg/texiao/Man_liandui.ogg", 'liandui');
-        createjs.Sound.registerSound("/assets/ogg/texiao/Man_sandaiyi.ogg", 'sandaiyi');
-        createjs.Sound.registerSound("/assets/ogg/texiao/Man_sandaiyidui.ogg", 'sandaiyidui');
-        createjs.Sound.registerSound("/assets/ogg/texiao/Man_shunzi.ogg", 'shunzi');
-        createjs.Sound.registerSound("/assets/ogg/texiao/Man_sidaier.ogg", 'sidaier');
-        createjs.Sound.registerSound("/assets/ogg/texiao/Man_sidailiangdui.ogg", 'sidailiangdui');
-        createjs.Sound.registerSound("/assets/ogg/texiao/Man_wangzha.ogg", 'wangzha');
-        createjs.Sound.registerSound("/assets/ogg/texiao/Man_zhadan.ogg", 'zhadan');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_feiji.mp3", 'feiji');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_liandui.mp3", 'liandui');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_sandaiyi.mp3", 'sandaiyi');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_sandaiyidui.mp3", 'sandaiyidui');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_shunzi.mp3", 'shunzi');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_sidaier.mp3", 'sidaier');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_sidailiangdui.mp3", 'sidailiangdui');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_wangzha.mp3", 'wangzha');
+        createjs.Sound.registerSound("/assets/ogg/texiao/Man_zhadan.mp3", 'zhadan');
 
         // 单支
-        createjs.Sound.registerSound("/assets/ogg/single/Man_1.ogg", 'sin1');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_2.ogg", 'sin2');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_3.ogg", 'sin3');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_4.ogg", 'sin4');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_5.ogg", 'sin5');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_6.ogg", 'sin6');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_7.ogg", 'sin7');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_8.ogg", 'sin8');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_9.ogg", 'sin9');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_10.ogg", 'sin10');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_11.ogg", 'sin11');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_12.ogg", 'sin12');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_13.ogg", 'sin13');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_14.ogg", 'sin14');
-        createjs.Sound.registerSound("/assets/ogg/single/Man_15.ogg", 'sin15');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_1.mp3", 'sin1');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_2.mp3", 'sin2');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_3.mp3", 'sin3');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_4.mp3", 'sin4');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_5.mp3", 'sin5');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_6.mp3", 'sin6');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_7.mp3", 'sin7');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_8.mp3", 'sin8');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_9.mp3", 'sin9');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_10.mp3", 'sin10');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_11.mp3", 'sin11');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_12.mp3", 'sin12');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_13.mp3", 'sin13');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_14.mp3", 'sin14');
+        createjs.Sound.registerSound("/assets/ogg/single/Man_15.mp3", 'sin15');
 
         // 对
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui1.ogg", 'dui1');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui2.ogg", 'dui2');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui3.ogg", 'dui3');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui4.ogg", 'dui4');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui5.ogg", 'dui5');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui6.ogg", 'dui6');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui7.ogg", 'dui7');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui8.ogg", 'dui8');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui9.ogg", 'dui9');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui10.ogg", 'dui10');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui11.ogg", 'dui11');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui12.ogg", 'dui12');
-        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui13.ogg", 'dui13');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui1.mp3", 'dui1');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui2.mp3", 'dui2');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui3.mp3", 'dui3');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui4.mp3", 'dui4');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui5.mp3", 'dui5');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui6.mp3", 'dui6');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui7.mp3", 'dui7');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui8.mp3", 'dui8');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui9.mp3", 'dui9');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui10.mp3", 'dui10');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui11.mp3", 'dui11');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui12.mp3", 'dui12');
+        createjs.Sound.registerSound("/assets/ogg/dui/Man_dui13.mp3", 'dui13');
 
         // 三
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple1.ogg", 'tuple1');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple2.ogg", 'tuple2');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple3.ogg", 'tuple3');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple4.ogg", 'tuple4');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple5.ogg", 'tuple5');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple6.ogg", 'tuple6');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple7.ogg", 'tuple7');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple8.ogg", 'tuple8');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple9.ogg", 'tuple9');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple10.ogg", 'tuple10');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple11.ogg", 'tuple11');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple12.ogg", 'tuple12');
-        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple13.ogg", 'tuple13');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple1.mp3", 'tuple1');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple2.mp3", 'tuple2');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple3.mp3", 'tuple3');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple4.mp3", 'tuple4');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple5.mp3", 'tuple5');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple6.mp3", 'tuple6');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple7.mp3", 'tuple7');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple8.mp3", 'tuple8');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple9.mp3", 'tuple9');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple10.mp3", 'tuple10');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple11.mp3", 'tuple11');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple12.mp3", 'tuple12');
+        createjs.Sound.registerSound("/assets/ogg/tuple/Man_tuple13.mp3", 'tuple13');
 
         // 剩下牌
-        createjs.Sound.registerSound("/assets/ogg/rest/Man_baojing1.ogg", 'baojing1');
-        createjs.Sound.registerSound("/assets/ogg/rest/Man_baojing2.ogg", 'baojing2');
+        createjs.Sound.registerSound("/assets/ogg/rest/Man_baojing1.mp3", 'baojing1');
+        createjs.Sound.registerSound("/assets/ogg/rest/Man_baojing2.mp3", 'baojing2');
     },
     SoundRest: function(num){
         setTimeout(()=>{
